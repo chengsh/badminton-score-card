@@ -1,13 +1,14 @@
 {
   "pages": [
+    "pages/score/main",
     "pages/index/main",
     "pages/control/main",
-    "pages/score/main"
+    "pages/history/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#0b54a7",
+    "navigationBarTitleText": "羽毛球比赛记分牌",
+    "navigationBarTextStyle": "white"
   }
 }

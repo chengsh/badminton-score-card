@@ -43,6 +43,21 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  color: white;
+  background: linear-gradient(#0b54a7, #166dd1);
+  overflow: hidden;
+  &:before{
+    content: '';
+    display: block;
+    width: 100vw;
+    height: 200vh;
+    position: absolute;
+    z-index: 0;
+    left: 40rpx;
+    top: 0;
+    background: linear-gradient(#2cc447, #1d9632);
+    transform: rotate(33deg);
+  }
 }
 .game-title{
   text-align: center;

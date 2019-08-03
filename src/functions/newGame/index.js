@@ -5,28 +5,22 @@ cloud.init()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  return new Promise((resolve, reject) => {
-    const db = cloud.database({
-      env: 'game-pcm9t'
-    })
-    db.collection('games').add({
-      data: {
-        create_time: Date.now(),
-        game_title: event.game_title,
-        create_user_id: event.openid,
-        red: {
-          name: event.red_name,
-          score: 0
-        },
-        blue: {
-          name: event.blue_name,
-          score: 0
-        }
+  const db = cloud.database({
+    env: 'game-pcm9t'
+  })
+  return await db.collection('games').add({
+    data: {
+      create_time: Date.now(),
+      game_title: event.game_title,
+      create_user_id: event.openid,
+      red: {
+        name: event.red_name,
+        score: 0
       },
-      success: function(res){
-        console.log(res);
-        resolve(res)
+      blue: {
+        name: event.blue_name,
+        score: 0
       }
-    })
+    }
   })
 }

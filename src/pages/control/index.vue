@@ -1,11 +1,11 @@
 <template>
   <div class="game-score">
-    <h3 class="game-title" @click="clickHandle">{{game_title}}</h3>
+    <h3 class="game-title" @click="clickHandle">{{game.game_title}}</h3>
     <div class="game-scoring">
       <div class="red">
-        <h3 class="team-name">{{red.name}}</h3>
+        <h3 class="team-name">{{game.red.name}}</h3>
         <div class="team-scoring">
-          <span class="number">{{red.score}}</span>
+          <span class="number">{{game.red.score}}</span>
         </div>
         <div class="game-btns">
           <span class="btn btn-reduce" @click="computed('red', 'reduce')">-</span>
@@ -13,9 +13,9 @@
         </div>
       </div>
       <div class="blue">
-        <h3 class="team-name">{{blue.name}}</h3>
+        <h3 class="team-name">{{game.blue.name}}</h3>
         <div class="team-scoring">
-          <span class="number">{{blue.score}}</span>
+          <span class="number">{{game.blue.score}}</span>
         </div>
         <div class="game-btns">
           <span class="btn btn-reduce" @click="computed('blue', 'reduce')">-</span>
@@ -31,16 +31,19 @@ export default {
   name: 'Score',
   data () {
     return {
+      game_id: '',
       total: 21,
       maxScore: 30,
-      game_title: '某某公司第一届XX球比赛',
-      red: {
-        name: 'A队',
-        score: 10
-      },
-      blue: {
-        name: 'B队',
-        score: 12
+      game: {
+        game_title: '',
+        red: {
+          name: '',
+          score: 0
+        },
+        blue: {
+          name: '',
+          score: 0
+        }
       }
     }
   },
@@ -56,9 +59,9 @@ export default {
     computed (team, operator = 'add') {
       if (this.ifGameOver()) return
       if (operator === 'add') {
-        this[team].score += 1
+        this.game[team].score += 1
       } else {
-        this[team].score = this[team].score - 1 >= 0 ? this[team].score - 1 : 0
+        this.game[team].score = this.game[team].score - 1 >= 0 ? this.game[team].score - 1 : 0
       }
     },
     /**
@@ -66,8 +69,8 @@ export default {
      * @return {Boolean} true:结束, false: 未结束
      */
     ifGameOver () {
-      const redScore = this.red.score
-      const blueScore = this.blue.score
+      const redScore = this.game.red.score
+      const blueScore = this.game.blue.score
       /**
        * 三种情况，比赛结束
        * 1、有一方得分=30分
@@ -81,18 +84,23 @@ export default {
       }
       return false
     },
-    login () {
+    getGameById(){
       wx.cloud.init()
       wx.cloud.callFunction({
-        name: 'login',
+        name: 'getGameById',
+        data: {
+          id: this.game_id
+        },
         complete: res => {
-          this.game_title = res.result.appid
+          this.game = res.result.data;
         }
       })
     }
   },
   mounted: function(){
-    this.login();
+    this.game_id = this.$mp.query.game_id;
+    this.getGameById();
+    
   }
 }
 </script>
@@ -103,6 +111,21 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  color: white;
+  background: linear-gradient(#0b54a7, #166dd1);
+  overflow: hidden;
+  &:before{
+    content: '';
+    display: block;
+    width: 100vw;
+    height: 200vh;
+    position: absolute;
+    z-index: 0;
+    left: 40rpx;
+    top: 0;
+    background: linear-gradient(#2cc447, #1d9632);
+    transform: rotate(33deg);
+  }
 }
 .game-title{
   text-align: center;
@@ -110,10 +133,13 @@ export default {
   margin: 32rpx;
   height: 32rpx;
   line-height: 32rpx;
+  color: white;
+  z-index: 1;
 }
 .game-scoring{
   height: calc(100vh - 32rpx);
   display: flex;
+  z-index: 1;
   .red{
     flex: 1;
   }
@@ -158,7 +184,7 @@ export default {
       border-radius: 8rpx;
     }
     .btn-add{
-      background-color: rgba(0,255,0,0.2);
+      background-color: rgba(76,145,255,1);
     }
     .btn-reduce{
       background-color: rgba(255,150,0,0.2);

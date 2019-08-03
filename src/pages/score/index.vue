@@ -1,41 +1,194 @@
 <template>
-  <div @click="clickHandle" class="root">
-    <Score />
+  <div class="game-score">
+    <div class="game-btns">
+      <span class="undo"><img src="/static/images/undo.svg"></img></span>
+      <span class="reset"><img src="/static/images/reset.svg"></img></span>
+    </div>
+    <h3 class="game-title">{{game.game_title}}</h3>
+    <div class="game-scoring">
+      <div class="red">
+        <h3 class="team-name">{{game.red.name}}</h3>
+        <div class="team-scoring" @click="computed('red', 'add')">
+          <span class="number">{{game.red.score}}</span>
+        </div>
+      </div>
+      <div class="blue">
+        <h3 class="team-name">{{game.blue.name}}</h3>
+        <div class="team-scoring" @click="computed('blue', 'add')">
+          <span class="number">{{game.red.score}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import Score from '@/components/Score'
 
 export default {
   data () {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
+      game_id: '',
+      total: 21,
+      maxScore: 30,
+      game: {
+        game_title: '',
+        red: {
+          name: '',
+          score: 0
+        },
+        blue: {
+          name: '',
+          score: 0
+        }
       }
     }
   },
-
-  components: {
-    Score
-  },
-
   methods: {
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
+    computed (team, operator = 'add') {
+      if (this.ifGameOver()) return
+      if (operator === 'add') {
+        this.game[team].score += 1
+      } else {
+        this.game[team].score = this.game[team].score - 1 >= 0 ? this.game[team].score - 1 : 0
+      }
+    },
+    /**
+     * 判断比赛是否结束
+     * @return {Boolean} true:结束, false: 未结束
+     */
+    ifGameOver () {
+      const redScore = this.game.red.score
+      const blueScore = this.game.blue.score
+      /**
+       * 三种情况，比赛结束
+       * 1、有一方得分=30分
+       * 2、一方得分=21分且另一方得分<=19（最常见的情况）
+       * 3、双方得分都>=20分且<30且分差>=2分
+       */
+      if (redScore === this.maxScore || blueScore === this.maxScore ||
+        (redScore === this.total && blueScore <= 19) || (blueScore === this.total && redScore <= 19) ||
+        (redScore >= 20 && blueScore >= 20 && Math.abs(redScore - blueScore) >= 2)) {
+        return true
+      }
+      return false
+    },
+    getGameById(){
+      wx.cloud.init()
+      wx.cloud.callFunction({
+        name: 'getGameById',
+        data: {
+          id: this.game_id
+        },
+        complete: res => {
+          this.game = res.result.data;
+        }
+      })
     }
   },
 
   created () {
-    // let app = getApp()
+    // this.game_id = this.$mp.query.game_id;
+    this.game_id = 'face13585d444d5409abdc3f7cf4f00e';
+    this.getGameById();
   }
 }
 </script>
 
-<style scoped>
-.root{
+<style scoped lang="less">
+.game-score{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  color: white;
+  background: linear-gradient(#0b54a7, #166dd1);
+  overflow: hidden;
+  border-top: 3rpx solid #fff;
+  &:before{
+    content: '';
+    display: block;
+    width: 50vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    top: 0;
+    z-index: 0;
+    background: linear-gradient(#2cc447, #1d9632);
+  }
+}
+.game-title{
+  text-align: center;
+  font-size: 18rpx;
+  margin: 18rpx;
+  height: 18rpx;
+  line-height: 18rpx;
+  z-index: 1;
+}
+.game-scoring{
+  position: relative;
+  height: calc(100vh - 18rpx);
+  display: flex;
+  z-index: 1;
+  .red{
+    flex: 1;
+  }
+  .blue{
+    flex: 1;
+  }
+  .red,.blue{
+    text-align: center;
+    height: 100%;
+    overflow: hidden;
+  }
+  .team-name{
+    font-size: 30rpx;
+    margin: 0;
+    height: 30rpx;
+  }
+  .team-scoring{
+    margin: 18rpx 0;
+    flex: 6;
+    text-align: center;
+    overflow: hidden;
+    height: calc(100% - 84rpx);
+    .number{
+      width: 100%;
+      height: 100%;
+      font-size: 180rpx;
+      overflow: hidden;
+    }
+  }
+}
+.game-btns{
+  width: 100rpx;
+  height: 30rpx;
+  position: absolute;
+  right: 0;
+  top: 10rpx;
+  z-index: 2;
+  .undo,.reset{
+    width: 30rpx;
+    height: 30rpx;
+    border-radius: 50%;
+    display: inline-block;
+    background: #0b54a7;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    text-align: center;
+    line-height: 30rpx;
+    vertical-align: middle;
+    >img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .undo{
+    margin-right: 20rpx;
+  }
+  .reset>img{
+    width: 90%;
+    height: 90%;
+    transform: translateY(5%);
+  }
 }
 </style>
