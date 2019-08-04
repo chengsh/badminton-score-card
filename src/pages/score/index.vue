@@ -137,6 +137,10 @@ export default {
   mounted () {
     this.game_id = this.$mp.query.game_id;
     this.getGameById();
+    // 界面常亮
+    wx.setKeepScreenOn({
+      keepScreenOn: true
+    })
   }
 }
 </script>
@@ -175,9 +179,9 @@ export default {
 }
 .game-scoring{
   position: relative;
-  height: calc(100vh - 18rpx);
   display: flex;
   z-index: 1;
+  flex: 1;
   .red{
     flex: 1;
   }
@@ -186,8 +190,9 @@ export default {
   }
   .red,.blue{
     text-align: center;
-    height: 100%;
+    display: flex;
     overflow: hidden;
+    flex-direction: column;
   }
   .team-name{
     font-size: 30rpx;
@@ -195,15 +200,13 @@ export default {
     height: 30rpx;
   }
   .team-scoring{
-    margin: 18rpx 0;
-    flex: 6;
+    flex: 1;
     text-align: center;
     overflow: hidden;
-    height: calc(100% - 84rpx);
+    box-sizing: border-box;
     .number{
-      width: 100%;
-      height: 100%;
       font-size: 180rpx;
+      line-height: 220rpx;
       overflow: hidden;
     }
   }

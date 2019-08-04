@@ -11,7 +11,7 @@
 	"cloudfunctionRoot": "src/functions/",
 	"compileType": "miniprogram",
 	"appid": "wx3e1d8f8f601d536a",
-	"projectname": "game-score",
+	"projectname": "badminton-score-card",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",

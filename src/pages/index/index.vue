@@ -41,6 +41,7 @@ export default {
         name: 'login',
         complete: res => {
           this.openid = res.result.openid;
+          wx.setStorageSync('openid', res.result.openid);
         }
       })
     },
@@ -70,7 +71,7 @@ export default {
     },
     navigateToHistory() {
       mpvue.navigateTo({
-        url: `/pages/history/main?user_id=${this.openid}`
+        url: '/pages/history/main'
       })
     }
   },
