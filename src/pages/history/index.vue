@@ -1,10 +1,13 @@
 <template>
   <div class="game-list">
-    <view class="game-theme">
-      <img class="bg-img" src="/static/images/index-bg.png" mode="widthFix" ></img>
-    </view>
     <view v-for="item in history" class="game-item">
       <navigator :url="item.url">{{item.game_title}}</navigator>
+    </view>
+    <view class="no-history" v-if="!loading && history.length === 0">
+      暂无历史比赛
+    </view>
+    <view class="data-describe" v-if="history.length > 0">
+      仅显示最近50场比赛
     </view>
     <loading :hidden="!loading" >
       加载中...
@@ -33,7 +36,7 @@ export default {
         complete: res => {
           this.loading = false;
           this.history = res.result.data.map(item => {
-            item.url = `../control/main?game_id=${item._id}`;
+            item.url = `/pages/score/main?game_id=${item._id}`;
             return item;
           });
         }
@@ -61,11 +64,48 @@ export default {
 }
 .game-list{
   position: relative;
-  margin: 20px;
+  padding: 40rpx;
+  background: linear-gradient(#0b54a7, #166dd1);
+  overflow: hidden;
+  min-height: 100vh;
+  box-sizing: border-box;
+  &:before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100vw;
+    height: 230vh;
+    left: 40rpx;
+    top: 0;
+    z-index: 0;
+    background: linear-gradient(#2cc447, #1d9632);
+    transform: rotate(33deg);
+  }
 }
 .game-item{
-  height: 36px;
-  line-height: 36px;
-  border-bottom: 1px solid #ccc;
+  position: relative;
+  width: 100%;
+  height: 72rpx;
+  line-height: 72rpx;
+  color: white;
+  border-bottom: 2rpx solid rgba(255,255,255,0.3);
+  z-index: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.no-history{
+  text-align: center;
+  line-height: 60rpx;
+  margin-top: 40rpx;
+  color: white;
+}
+.data-describe{
+  text-align: center;
+  line-height: 72rpx;
+  color: rgba(255,255,255,0.7);
+  font-size: 26rpx;
+  z-index: 2;
+  position: relative;
+
 }
 </style>

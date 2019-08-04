@@ -1,8 +1,10 @@
 <template>
   <div class="game-score">
     <div class="game-btns">
-      <span class="undo"><img src="/static/images/undo.svg"></img></span>
-      <span class="reset"><img src="/static/images/reset.svg"></img></span>
+      <span :class="history[historyIndex] ? 'undo' : 'undo disabled'" @click="undo">
+        <img src="/static/images/undo.svg"></img>
+      </span>
+      <span class="reset" @click="reset"><img src="/static/images/reset.svg"></img></span>
     </div>
     <h3 class="game-title">{{game.game_title}}</h3>
     <div class="game-scoring">
@@ -15,10 +17,13 @@
       <div class="blue">
         <h3 class="team-name">{{game.blue.name}}</h3>
         <div class="team-scoring" @click="computed('blue', 'add')">
-          <span class="number">{{game.red.score}}</span>
+          <span class="number">{{game.blue.score}}</span>
         </div>
       </div>
     </div>
+    <loading :hidden="!loading" >
+      加载中...
+    </loading>
   </div>
 </template>
 
@@ -27,30 +32,57 @@
 export default {
   data () {
     return {
+      loading: false,
       game_id: '',
       total: 21,
       maxScore: 30,
+      // 记录历史分数，便于撤销
+      history: [],
+      historyIndex: 0,
       game: {
         game_title: '',
         red: {
           name: '',
-          score: 0
+          score: ''
         },
         blue: {
           name: '',
-          score: 0
+          score: ''
         }
       }
     }
   },
   methods: {
     computed (team, operator = 'add') {
-      if (this.ifGameOver()) return
+      if (this.ifGameOver()) return;
+
+      this.historyIndex = 0;
+      this.history.unshift({
+        redScore: this.game.red.score,
+        blueScore: this.game.blue.score
+      });
+      // 最多记录50条历史记录
+      if(this.history.length > 50){
+        this.history.length = 50;
+      } 
       if (operator === 'add') {
         this.game[team].score += 1
       } else {
         this.game[team].score = this.game[team].score - 1 >= 0 ? this.game[team].score - 1 : 0
       }
+      this.updateGameScore();
+    },
+    updateGameScore() {
+      this.loading = true;
+      wx.cloud.init()
+      wx.cloud.callFunction({
+        name: 'updateGame',
+        data: {
+          ...this.game
+        }
+      }).then(res => {
+        this.loading = false;
+      })
     },
     /**
      * 判断比赛是否结束
@@ -83,12 +115,27 @@ export default {
           this.game = res.result.data;
         }
       })
+    },
+    undo() {
+      if(this.history[this.historyIndex]){
+        const { redScore, blueScore } = this.history[this.historyIndex];
+
+        this.game.red.score = redScore;
+        this.game.blue.score = blueScore;
+        this.updateGameScore();
+        this.historyIndex += 1;
+      }
+    },
+    reset() {
+      this.game.red.score = 0;
+      this.game.blue.score = 0;
+      this.updateGameScore();
+      this.historyIndex = 0;
     }
   },
 
-  created () {
-    // this.game_id = this.$mp.query.game_id;
-    this.game_id = 'face13585d444d5409abdc3f7cf4f00e';
+  mounted () {
+    this.game_id = this.$mp.query.game_id;
     this.getGameById();
   }
 }
@@ -100,6 +147,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  box-sizing: border-box;
   color: white;
   background: linear-gradient(#0b54a7, #166dd1);
   overflow: hidden;
@@ -180,6 +228,9 @@ export default {
     >img{
       width: 100%;
       height: 100%;
+    }
+    &.disabled{
+      opacity: 0.5;
     }
   }
   .undo{

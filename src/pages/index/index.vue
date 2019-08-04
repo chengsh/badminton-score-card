@@ -5,13 +5,13 @@
     </view>
     <view class="create-area">
       <view class="section">
-        <input type="text" class="game-attr" v-model="game_title" placeholder="比赛名称" auto-focus>
+        <input type="text" class="game-attr" v-model="game_title" maxlength="30" placeholder="比赛名称" auto-focus>
       </view>
       <view class="section">
-        <input type="text" class="game-attr" v-model="red_name" placeholder="红队名称">
+        <input type="text" class="game-attr" v-model="red_name" maxlength="10" placeholder="红队名称">
       </view>
       <view class="section">
-        <input type="text" class="game-attr" v-model="blue_name" placeholder="蓝队名称">
+        <input type="text" class="game-attr" v-model="blue_name" maxlength="10" placeholder="蓝队名称">
       </view>
       
       <button class="handle-btn" type="primary" @click="createGame">创建比赛</button>
@@ -28,13 +28,12 @@ export default {
   data () {
     return {
       loading: false,
-      user_id: ''
+      user_id: '',
+      game_title: '',
+      red_name: '',
+      blue_name: ''
     }
   },
-
-  components: {
-  },
-
   methods: {
     getUserInfo() {
       wx.cloud.init()
@@ -46,26 +45,32 @@ export default {
       })
     },
     createGame() {
+      if(this.loading)return;
       this.loading = true;
       wx.cloud.init()
       wx.cloud.callFunction({
         name: 'newGame',
         data: {
           openid: this.openid,
-          game_title: this.game_title,
-          red_name: this.red_name,
-          blue_name: this.blue_name
+          game_title: this.game_title.trim() || '羽毛球大赛',
+          red_name: this.red_name.trim() || '红队',
+          blue_name: this.blue_name.trim() || '蓝队'
         }
       }).then(res => {
         this.loading = false;
+        this.game_title = '';
+        this.red_name = '';
+        this.blue_name = '';
         mpvue.navigateTo({
-          url: `../control/main?game_id=${res.result['_id']}`
+          url: `/pages/score/main?game_id=${res.result['_id']}`
         })
+      }).catch(err => {
+        this.loading = false;
       })
     },
     navigateToHistory() {
       mpvue.navigateTo({
-        url: `../history/main?user_id=${this.openid}`
+        url: `/pages/history/main?user_id=${this.openid}`
       })
     }
   },

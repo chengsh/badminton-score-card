@@ -10,5 +10,5 @@ exports.main = async (event, context) => {
   })
   return await db.collection('games').where({
   	create_user_id: event.openid
-  }).orderBy('create_time', 'desc').limit(20).get();
+  }).orderBy('create_time', 'desc').limit(50).get();
 }
