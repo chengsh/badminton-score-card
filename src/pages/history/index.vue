@@ -44,6 +44,7 @@ export default {
     }
   },
   mounted: function(){
+    this.loading = false;
     this.user_id = wx.getStorageSync('openid');
     this.getHistory();
   }

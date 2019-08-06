@@ -135,6 +135,7 @@ export default {
   },
 
   mounted () {
+    this.loading = false;
     this.game_id = this.$mp.query.game_id;
     this.getGameById();
     // 界面常亮

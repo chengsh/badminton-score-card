@@ -8,10 +8,10 @@
         <input type="text" class="game-attr" v-model="game_title" maxlength="30" placeholder="比赛名称" auto-focus>
       </view>
       <view class="section">
-        <input type="text" class="game-attr" v-model="red_name" maxlength="10" placeholder="红队名称">
+        <input type="text" class="game-attr" v-model="red_name" maxlength="30" placeholder="红队名称">
       </view>
       <view class="section">
-        <input type="text" class="game-attr" v-model="blue_name" maxlength="10" placeholder="蓝队名称">
+        <input type="text" class="game-attr" v-model="blue_name" maxlength="30" placeholder="蓝队名称">
       </view>
       
       <button class="handle-btn" type="primary" @click="createGame">创建比赛</button>
@@ -75,7 +75,9 @@ export default {
       })
     }
   },
-
+  mounted () {
+    this.loading = false;
+  },
   created () {
     this.getUserInfo()
   }
