@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/score/main",
-    "pages/history/main"
+    "pages/history/main",
+    "pages/score/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
