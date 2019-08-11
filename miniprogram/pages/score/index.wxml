@@ -1,0 +1,26 @@
+<div class="game-score">
+  <div class="game-btns">
+    <span class="{{history[historyIndex] ? 'undo' : 'undo disabled'}}" bindtap="undo">
+      <image src="/images/undo.svg"></image>
+    </span>
+    <span class="reset" data-identifier="reset" bindtap="computed"><image src="/images/reset.svg"></image></span>
+  </div>
+  <h3 class="game-title">{{game.game_title}}</h3>
+  <div class="game-scoring">
+    <div class="red">
+      <h3 class="team-name">{{game.red.name}}</h3>
+      <div class="team-scoring" data-identifier="add" data-team="red" bindtap="computed">
+        <span class="number">{{game.red.score}}</span>
+      </div>
+    </div>
+    <div class="blue">
+      <h3 class="team-name">{{game.blue.name}}</h3>
+      <div class="team-scoring" data-identifier="add" data-team="blue" bindtap="computed">
+        <span class="number">{{game.blue.score}}</span>
+      </div>
+    </div>
+  </div>
+  <loading wx:if="{{loading}}" >
+    加载中...
+  </loading>
+</div>

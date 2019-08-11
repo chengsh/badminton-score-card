@@ -1,0 +1,29 @@
+<view class="container">
+  <div class="game-list" bindtap="resetSwipe">
+    <view wx:for="{{history}}" wx:for-index="index" wx:for-item="item" wx:key="_id" class="game-item">
+      <movable-area class="movable-area">
+        <movable-view 
+          class="movable-view"
+          x="{{item.moveX}}"
+          damping="30"
+          out-of-bounds="false"
+          direction="horizontal"
+          data-index="{{index}}"
+          bind:touchstart="handleTouchStart"
+          bind:touchend="handleTouchEnd">
+          <navigator class="game-item-navigator" url="{{item.url}}">{{item.game_title}}</navigator>
+          <span class="delete-game-item" bindtap="removeGame" data-index="{{index}}">删除</span>
+        </movable-view>
+      </movable-area>
+    </view>
+    <view class="no-history" wx:if="{{!loading && history.length === 0}}">
+      暂无历史比赛
+    </view>
+    <view class="data-describe" wx:if="{{history.length > 0}}">
+      仅显示最近50场比赛
+    </view>
+    <loading wx:if="{{loading}}" >
+      加载中...
+    </loading>
+  </div>
+</view>

@@ -9,7 +9,7 @@
 		"newFeature": true
 	},
 	"appid": "wx3e1d8f8f601d536a",
-	"projectname": "my-project",
+	"projectname": "badminton-score-card",
 	"libVersion": "2.2.5",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
@@ -33,11 +33,7 @@
 		"miniprogram": {
 			"current": 0,
 			"list": [
-				{
-					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide"
-				}
+				
 			]
 		}
 	}

@@ -1,0 +1,47 @@
+<!--index.wxml-->
+<view class="container">
+  <div class="game-form">
+    <view class="game-theme">
+      <image class="bg-img" src="/images/index-bg.png" mode="widthFix" ></image>
+    </view>
+    <view class="create-area">
+      <view class="section">
+        <input 
+          type="text" 
+          class="game-attr" 
+          value="{{game_title}}" 
+          bindinput="setGame" 
+          maxlength="30" 
+          placeholder="比赛名称" 
+          auto-focus 
+          data-field="game_title" />
+      </view>
+      <view class="section">
+        <input 
+          type="text" 
+          class="game-attr" 
+          value="{{red_name}}" 
+          bindinput="setGame" 
+          maxlength="30" 
+          placeholder="红队名称" 
+          data-field="red_name"/>
+      </view>
+      <view class="section">
+        <input 
+          type="text" 
+          class="game-attr" 
+          value="{{blue_name}}" 
+          bindinput="setGame" 
+          maxlength="30" 
+          placeholder="蓝队名称" 
+          data-field="blue_name" />
+      </view>
+      
+      <button class="handle-btn" type="primary" bindtap="createGame">创建比赛</button>
+      <button class="handle-btn" bindtap="navigateToHistory">历史比赛</button> 
+    </view>   
+    <loading wx:if="{{loading}}" >
+      加载中...
+    </loading>
+  </div>
+</view>
