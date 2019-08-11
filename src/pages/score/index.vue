@@ -10,13 +10,13 @@
     <div class="game-scoring">
       <div class="red">
         <h3 class="team-name">{{game.red.name}}</h3>
-        <div class="team-scoring" @click="computed('red', 'add')">
+        <div class="team-scoring" @click="computed('add', 'red')">
           <span class="number">{{game.red.score}}</span>
         </div>
       </div>
       <div class="blue">
         <h3 class="team-name">{{game.blue.name}}</h3>
-        <div class="team-scoring" @click="computed('blue', 'add')">
+        <div class="team-scoring" @click="computed('add', 'blue')">
           <span class="number">{{game.blue.score}}</span>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default {
     }
   },
   methods: {
-    computed (team, operator = 'add') {
+    computed (operator = 'add', team) {
       if (this.ifGameOver()) return;
 
       this.historyIndex = 0;
@@ -67,8 +67,9 @@ export default {
       } 
       if (operator === 'add') {
         this.game[team].score += 1
-      } else {
-        this.game[team].score = this.game[team].score - 1 >= 0 ? this.game[team].score - 1 : 0
+      } else if(operator === 'reset'){
+        this.game['red'].score = 0
+        this.game['blue'].score = 0
       }
       this.updateGameScore();
     },
@@ -127,10 +128,7 @@ export default {
       }
     },
     reset() {
-      this.game.red.score = 0;
-      this.game.blue.score = 0;
-      this.updateGameScore();
-      this.historyIndex = 0;
+      this.computed('reset');
     }
   },
 
