@@ -36,10 +36,10 @@ Page({
   },
 
   computed (e) {
-    if (this.ifGameOver()) return;
     const {dataset} = e.currentTarget;
     const {game, history} = this.data;
 
+    if (this.ifGameOver() && dataset.identifier !== 'reset') return;
     this.setData({
       historyIndex: 0,
       history: [{
