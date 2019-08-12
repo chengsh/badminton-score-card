@@ -1,16 +1,15 @@
-//index.js
 const app = getApp()
 
 Page({
   data: {
     loading: false,
-    user_id: '',
+    openid: '',
     game_title: '',
     red_name: '',
     blue_name: ''
   },
 
-  onLoad: function() {
+  onLoad: async function(){
     this.setData({
       loading: false
     })
@@ -23,28 +22,36 @@ Page({
     })
   },
 
-  getUserInfo() {
+  getUserInfo: async function(){
+    this.setData({
+      loading: true
+    })
     wx.cloud.init()
-    return wx.cloud.callFunction({
+    await wx.cloud.callFunction({
       name: 'login',
       complete: res => {
         this.setData({
-          openid: res.result.openid
+          openid: res.result.openid,
+          loading: false
         })
         wx.setStorageSync('openid', res.result.openid);
       }
     })
   },
 
-  createGame() {
+  createGame: async function(){
     const { loading, game_title, red_name, blue_name, openid } = this.data;
 
     if(loading)return;
     this.setData({
       loading: true
     })
+    // 避免创建没有create_user_id的比赛
+    if(openid == ''){
+      await this.getUserInfo();
+    }
     wx.cloud.init()
-    wx.cloud.callFunction({
+    await wx.cloud.callFunction({
       name: 'curd',
       data: {
         action: 'create',
