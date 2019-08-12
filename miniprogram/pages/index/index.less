@@ -1,3 +1,5 @@
+@import (reference)'../../style/common.less';
+
 .game-theme{
   width: 100vw;
   height: 100vh;
@@ -7,6 +9,8 @@
   z-index: 1;
   .bg-img{
     width: 100%;
+    display: block;
+    margin: 0 auto;
   }
 }
 .create-area{
@@ -16,6 +20,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 40rpx;
+  padding-bottom: 10rpx;
   z-index: 2;
   .game-attr,.handle-btn{
     box-shadow: 0 5px 5px rgba(0,0,0,0.2);
@@ -25,6 +30,7 @@
   width: 100vw;
   height: 100vh;
   padding: 40rpx;
+  padding-bottom: 10rpx;
   box-sizing: border-box;
   position: relative;
   background: linear-gradient(#0b54a7, #166dd1);
@@ -47,7 +53,33 @@
   padding: 0 20rpx;
   line-height: 72rpx;
   margin: 40rpx 0;
+  font-size: 28rpx;
 }
 .handle-btn{
   margin: 40rpx 0;
+  font-size: 28rpx;
+  height: 72rpx;
+}
+
+// iPad
+@media (min-width: 768px) {
+  .game-theme{
+    .bg-img{
+      max-width: 500rpx;
+    }
+  }
+  .game-attr{
+    background-color: white;
+    height: 40rpx;
+    padding: 0 20rpx;
+    margin: 28rpx 0;
+    font-size: 16rpx;
+    min-height: 40rpx;
+    line-height: 40rpx;
+  }
+  .handle-btn{
+    height: 40rpx;
+    margin: 28rpx 0;
+    font-size: 16rpx;
+  }
 }

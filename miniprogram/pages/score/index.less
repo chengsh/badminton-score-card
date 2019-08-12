@@ -1,3 +1,5 @@
+@import (reference)'../../style/common.less';
+
 .game-score{
   position: relative;
   display: flex;
@@ -56,9 +58,13 @@
     text-align: center;
     overflow: hidden;
     box-sizing: border-box;
+    position: relative;
     .number{
-      font-size: 180rpx;
-      line-height: 220rpx;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 270rpx;
       overflow: hidden;
     }
   }
@@ -96,4 +102,16 @@
     height: 90%;
     transform: translateY(5%);
   }
+}
+
+
+// iPad
+@media (min-width: 768px) {
+  .game-scoring{
+    .team-scoring{
+      .number{
+        font-size: 350rpx;
+      }
+    }  
+  }   
 }

@@ -1,4 +1,3 @@
-//index.js
 const app = getApp()
 
 Page({
@@ -41,12 +40,13 @@ Page({
     let {index} = e.currentTarget.dataset;
     let historyItem = this.data.history[index];
     let moveX = e.changedTouches[0].pageX - this.data.startX;
-    let greaterThanHalf = Math.abs(moveX) >= this.data.deleteBtnWidth/2;
+    let deleteBtnWidth = this.data.deleteBtnWidth;
+    let greaterThanHalf = Math.abs(moveX) >= deleteBtnWidth/2;
 
     if(moveX < 0){
-      historyItem.moveX = greaterThanHalf ? -this.data.deleteBtnWidth : 0;
-    }else{
-      historyItem.moveX = greaterThanHalf ? 0 : -this.data.deleteBtnWidth;
+      historyItem.moveX = greaterThanHalf ? -deleteBtnWidth : 0;
+    }else if(Math.abs(historyItem.moveX) === deleteBtnWidth){
+      historyItem.moveX = greaterThanHalf ? 0 : -deleteBtnWidth;
     }
     this.setData({
       history: this.data.history
