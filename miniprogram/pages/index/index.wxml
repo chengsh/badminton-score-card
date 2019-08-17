@@ -3,6 +3,7 @@
   <div class="game-form">
     <view class="game-theme">
       <image class="bg-img" src="/images/index-bg.png" mode="widthFix" ></image>
+      <image class="bg-img white-line" src="/images/ball-park.png" mode="widthFix" ></image>
     </view>
     <view class="create-area">
       <view class="section">
