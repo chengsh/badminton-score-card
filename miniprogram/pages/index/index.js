@@ -10,9 +10,7 @@ Page({
   },
 
   onLoad: async function(){
-    this.setData({
-      loading: false
-    })
+    wx.hideLoading();
     this.getUserInfo();
   },
 
@@ -23,26 +21,28 @@ Page({
   },
 
   getUserInfo: async function(){
-    this.setData({
-      loading: true
+    wx.showLoading({
+      title: '加载中',
     })
     wx.cloud.init()
     await wx.cloud.callFunction({
       name: 'login',
       complete: res => {
         this.setData({
-          openid: res.result.openid,
-          loading: false
+          openid: res.result.openid
         })
+        wx.hideLoading();
         wx.setStorageSync('openid', res.result.openid);
       }
     })
   },
 
   createGame: async function(){
-    const { loading, game_title, red_name, blue_name, openid } = this.data;
+    const { game_title, red_name, blue_name, openid } = this.data;
 
-    if(loading)return;
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       loading: true
     })
@@ -64,16 +64,17 @@ Page({
       }
     }).then(res => {
       this.setData({
-        loading: false,
         game_title: '',
         red_name: '',
-        blue_name: ''
+        blue_name: '',
+        loading: false
       })
-      
+      wx.hideLoading();
       wx.navigateTo({
         url: `/pages/score/index?game_id=${res.result['_id']}`
       })
     }).catch(err => {
+      wx.hideLoading();
       this.setData({
         loading: false
       })

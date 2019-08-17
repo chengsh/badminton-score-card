@@ -38,11 +38,8 @@
           data-field="blue_name" />
       </view>
       
-      <button class="handle-btn" type="primary" bindtap="createGame">创建比赛</button>
+      <button class="handle-btn" type="primary" bindtap="createGame" loading="{{loading}}" disabled="{{loading}}">创建比赛</button>
       <button class="handle-btn" bindtap="navigateToHistory">历史比赛</button> 
     </view>   
-    <loading wx:if="{{loading}}" >
-      加载中...
-    </loading>
   </div>
 </view>

@@ -3,7 +3,6 @@ const app = getApp()
 
 Page({
   data: {
-    loading: false,
     game_id: '',
     total: 21,
     maxScore: 30,
@@ -24,8 +23,8 @@ Page({
   },
 
   onLoad: function(option) {
+    wx.hideLoading();
     this.setData({
-      loading: false,
       game_id: option.game_id
     })
     this.getGameById();
@@ -39,7 +38,7 @@ Page({
     const {dataset} = e.currentTarget;
     const {game, history} = this.data;
 
-    if (this.ifGameOver() && dataset.identifier !== 'reset') return;
+    if (dataset.identifier === 'add' && this.ifGameOver()) return;
     this.setData({
       historyIndex: 0,
       history: [{
@@ -55,18 +54,32 @@ Page({
     } 
     if (dataset.identifier === 'add') {
       game[dataset.team].score += 1
-    } else if(dataset.identifier === 'reset'){
-      game['red'].score = 0
-      game['blue'].score = 0
+      this.setData({
+        game
+      })
+      this.updateGameScore();
+    }else if(dataset.identifier === 'reset'){
+      let _this = this;
+
+      wx.showModal({
+        title: '重置比分',
+        content: '确定重置比分为0:0？',
+        success (res) {
+          if (res.confirm) {
+            game['red'].score = 0
+            game['blue'].score = 0    
+            _this.setData({
+              game
+            })
+            _this.updateGameScore();  
+          }
+        }
+      })
     }
-    this.setData({
-      game
-    })
-    this.updateGameScore();
   },
   updateGameScore() {
-    this.setData({
-      loading: true
+    wx.showLoading({
+      title: '加载中',
     })
     wx.cloud.init()
     wx.cloud.callFunction({
@@ -76,9 +89,7 @@ Page({
         game: this.data.game
       }
     }).then(res => {
-      this.setData({
-        loading: false
-      })
+      wx.hideLoading();
     })
   },
   /**
@@ -98,13 +109,18 @@ Page({
     if (redScore === maxScore || blueScore === maxScore ||
       (redScore === total && blueScore <= 19) || (blueScore === total && redScore <= 19) ||
       (redScore >= 20 && blueScore >= 20 && Math.abs(redScore - blueScore) >= 2)) {
+      wx.showToast({
+        title: '比赛结束',
+        icon: 'none',
+        duration: 2000
+      })
       return true
     }
     return false
   },
   getGameById(){
-    this.setData({
-      loading: true
+    wx.showLoading({
+      title: '加载中',
     })
     wx.cloud.init()
     wx.cloud.callFunction({
@@ -115,9 +131,9 @@ Page({
       },
       complete: res => {
         this.setData({
-          game: res.result.data,
-          loading: false
+          game: res.result.data
         })
+        wx.hideLoading();
       }
     })
   },

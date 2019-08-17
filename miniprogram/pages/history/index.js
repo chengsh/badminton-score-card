@@ -3,15 +3,14 @@ const app = getApp()
 Page({
   data: {
   	openid: '',
-    loading: false,
     history: [],
     startX: 0,
     deleteBtnWidth: 68
   },
 
   onLoad: function() {
+    wx.hideLoading();
     this.setData({
-      loading: false,
       openid: wx.getStorageSync('openid')
     })
     this.getHistory();
@@ -54,8 +53,8 @@ Page({
   },
 
   getHistory(){
-    this.setData({
-      loading: true
+    wx.showLoading({
+      title: '加载中',
     })
     wx.cloud.init()
     wx.cloud.callFunction({
@@ -65,8 +64,8 @@ Page({
         openid: this.data.openid
       },
       complete: res => {
+        wx.hideLoading();
         this.setData({
-          loading: false,
           history: res.result.data.map((item, index) => {
             item.url = `/pages/score/index?game_id=${item._id}`;
             item.moveX = 0;
@@ -80,8 +79,10 @@ Page({
     let {index} = e.currentTarget.dataset;
 
     this.data.history[index].moveX = 0;
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
-      loading: true,
       history: this.data.history
     })
 
@@ -94,8 +95,8 @@ Page({
       },
       complete: res => {
         this.data.history.splice(index, 1);
+        wx.hideLoading();
         this.setData({
-          loading: false,
           history: this.data.history
         })
       }
