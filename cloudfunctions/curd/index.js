@@ -1,6 +1,6 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
-const collectionName = 'test';
+const collectionName = 'games';
 const databaseEnv = 'game-pcm9t';
 
 const paramError = errMsg => {
