@@ -2,6 +2,10 @@ import callFunction from '../../unit/callFunction';
 
 const app = getApp()
 
+wx.cloud.init({
+  env: 'game-pcm9t'
+})
+
 Page({
   data: {
     loading: false,
