@@ -1,3 +1,5 @@
+import callFunction from '../../unit/callFunction';
+
 const app = getApp()
 
 Page({
@@ -40,9 +42,6 @@ Page({
   createGame: async function(){
     const { game_title, red_name, blue_name, openid } = this.data;
 
-    wx.showLoading({
-      title: '加载中',
-    })
     this.setData({
       loading: true
     })
@@ -50,8 +49,8 @@ Page({
     if(openid == ''){
       await this.getUserInfo();
     }
-    wx.cloud.init()
-    await wx.cloud.callFunction({
+    
+    await callFunction({
       name: 'curd',
       data: {
         action: 'create',
@@ -69,12 +68,10 @@ Page({
         blue_name: '',
         loading: false
       })
-      wx.hideLoading();
       wx.navigateTo({
-        url: `/pages/score/index?game_id=${res.result['_id']}`
+        url: `/pages/score/index?game_id=${res.data['id']}`
       })
     }).catch(err => {
-      wx.hideLoading();
       this.setData({
         loading: false
       })

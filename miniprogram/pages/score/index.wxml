@@ -11,12 +11,14 @@
       <h3 class="team-name">{{game.red.name}}</h3>
       <div class="team-scoring" data-identifier="add" data-team="red" bindtap="computed">
         <span class="number">{{game.red.score}}</span>
+        <image class="server" wx:if="{{server==='red'}}" src="/images/badminton.svg"></image>
       </div>
     </div>
     <div class="blue">
       <h3 class="team-name">{{game.blue.name}}</h3>
       <div class="team-scoring" data-identifier="add" data-team="blue" bindtap="computed">
         <span class="number">{{game.blue.score}}</span>
+        <image class="server" wx:if="{{server==='blue'}}" src="/images/badminton.svg"></image>
       </div>
     </div>
   </div>

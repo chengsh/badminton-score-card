@@ -1,4 +1,5 @@
-//index.js
+import callFunction from '../../unit/callFunction';
+
 const app = getApp()
 
 Page({
@@ -9,6 +10,8 @@ Page({
     // 记录历史分数，便于撤销
     history: [],
     historyIndex: 0,
+    // 发球方
+    server: '',
     game: {
       game_title: '',
       red: {
@@ -36,14 +39,15 @@ Page({
 
   computed (e) {
     const {dataset} = e.currentTarget;
-    const {game, history} = this.data;
+    const {game, history, server} = this.data;
 
     if (dataset.identifier === 'add' && this.ifGameOver()) return;
     this.setData({
       historyIndex: 0,
       history: [{
         redScore: game.red.score,
-        blueScore: game.blue.score
+        blueScore: game.blue.score,
+        server
       }, ...history]
     })
     // 最多记录50条历史记录
@@ -55,7 +59,8 @@ Page({
     if (dataset.identifier === 'add') {
       game[dataset.team].score += 1
       this.setData({
-        game
+        game,
+        server: dataset.team
       })
       this.updateGameScore();
     }else if(dataset.identifier === 'reset'){
@@ -69,7 +74,8 @@ Page({
             game['red'].score = 0
             game['blue'].score = 0    
             _this.setData({
-              game
+              game,
+              server: ''
             })
             _this.updateGameScore();  
           }
@@ -78,18 +84,12 @@ Page({
     }
   },
   updateGameScore() {
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.cloud.init()
-    wx.cloud.callFunction({
+    callFunction({
       name: 'curd',
       data: {
         action: 'update',
         game: this.data.game
       }
-    }).then(res => {
-      wx.hideLoading();
     })
   },
   /**
@@ -119,35 +119,30 @@ Page({
     return false
   },
   getGameById(){
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.cloud.init()
-    wx.cloud.callFunction({
+    callFunction({
       name: 'curd',
       data: {
         action: 'retriveById',
         game_id: this.data.game_id
-      },
-      complete: res => {
-        this.setData({
-          game: res.result.data
-        })
-        wx.hideLoading();
       }
+    }).then(res => {
+      this.setData({
+        game: res.data
+      })
     })
   },
   undo() {
     const { historyIndex, history } = this.data;
 
     if(history[historyIndex]){
-      const { redScore, blueScore } = history[historyIndex];
+      const { redScore, blueScore, server } = history[historyIndex];
 
       this.data.game.red.score = redScore;
       this.data.game.blue.score = blueScore;
       this.setData({
         game: this.data.game,
-        historyIndex: historyIndex + 1
+        historyIndex: historyIndex + 1,
+        server
       })
       this.updateGameScore();
     }

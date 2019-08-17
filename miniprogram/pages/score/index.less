@@ -49,9 +49,14 @@
     flex-direction: column;
   }
   .team-name{
+    position: relative;
+    padding: 0 20rpx;
     font-size: 30rpx;
     margin: 0;
-    height: 30rpx;
+    height: 40rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .team-scoring{
     flex: 1;
@@ -59,6 +64,13 @@
     overflow: hidden;
     box-sizing: border-box;
     position: relative;
+    .server{
+      width: 60rpx;
+      height: 40rpx;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
     .number{
       position: absolute;
       left: 50%;
@@ -66,6 +78,7 @@
       transform: translate(-50%,-50%);
       font-size: 270rpx;
       overflow: hidden;
+      z-index: 2;
     }
   }
 }
@@ -75,7 +88,7 @@
   position: absolute;
   right: 0;
   top: 10rpx;
-  z-index: 2;
+  z-index: 9;
   .undo,.reset{
     width: 30rpx;
     height: 30rpx;
