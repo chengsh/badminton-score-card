@@ -9,7 +9,7 @@ const DISABLED_ASYNC_INTERVAL = 5000;
 Page({
   data: {
     // 是否有权限修改比分
-    owner: false,
+    owner: true,
     // 是否在同步比分
     asyncData: false,
     // 轮询定时器
@@ -40,16 +40,17 @@ Page({
 
   onLoad: function(option) {
     wx.hideLoading();
-    this.setData({
-      game_id: option.game_id,
-      openid: wx.getStorageSync('openid')
-    })
-    this.getGameById().then(res => {
-      this.pollRequest();
-    });
     // 界面常亮
     wx.setKeepScreenOn({
       keepScreenOn: true
+    })
+    this.setData({
+      game_id: option.game_id,
+      openid: wx.getStorageSync('openid')
+    },() => {
+      this.getGameById().then(() => {
+        this.pollRequest();
+      });
     })
   },
 
@@ -189,7 +190,7 @@ Page({
     }).then(res => {
       this.setData({
         game: res.data,
-        owner: res.data.create_user_id === wx.getStorageSync('openid'),
+        owner: res.data.create_user_id === this.data.openid,
         asyncData: false
       })
       setTimeout(() => {
