@@ -1,10 +1,23 @@
 import callFunction from '../../unit/callFunction';
 
 const app = getApp()
+// 轮询间隔
+const ASYNC_INTERVAL = 15000;
+// 同步按钮禁用间隔
+const DISABLED_ASYNC_INTERVAL = 5000;
 
 Page({
   data: {
+    // 是否有权限修改比分
+    owner: false,
+    // 是否在同步比分
+    asyncData: false,
+    // 轮询定时器
+    asyncTimer: null,
+    // 禁用主动触发轮询
+    asyncDisable: false,
     game_id: '',
+    openid: '',
     total: 21,
     maxScore: 30,
     // 记录历史分数，便于撤销
@@ -28,35 +41,76 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id
+      game_id: option.game_id,
+      openid: wx.getStorageSync('openid')
     })
-    this.getGameById();
+    this.getGameById().then(res => {
+      this.pollRequest();
+    });
     // 界面常亮
     wx.setKeepScreenOn({
       keepScreenOn: true
     })
   },
 
+  // 查看比分，轮询
+  pollRequest(){
+    if(!this.data.owner){
+      clearInterval(this.data.asyncTimer);
+      this.data.asyncTimer = setInterval(() => {
+        this.getGameById();
+      }, ASYNC_INTERVAL);
+    }
+  },
+  onHide(){
+    if(this.data.asyncTimer){
+      clearInterval(this.data.asyncTimer);
+      this.data.asyncTimer = null;
+    }
+  },
+  onShow(){
+    if(!this.data.asyncTimer){
+      this.pollRequest();
+    }
+  },
+  onUnload(){
+    if(this.data.asyncTimer){
+      clearInterval(this.data.asyncTimer);
+      this.data.asyncTimer = null;
+    }
+  },
+  onShareAppMessage(){
+    const {game, game_id} = this.data;
+
+    return {
+      title: `${game.red.name} VS ${game.blue.name}，${game.red.score} : ${game.blue.score}`,
+      path: `/pages/score/index?game_id=${game_id}`
+    }
+  },
+
   computed (e) {
     const {dataset} = e.currentTarget;
-    const {game, history, server} = this.data;
-
-    if (dataset.identifier === 'add' && this.ifGameOver()) return;
-    this.setData({
-      historyIndex: 0,
-      history: [{
-        redScore: game.red.score,
-        blueScore: game.blue.score,
-        server
-      }, ...history]
-    })
-    // 最多记录50条历史记录
-    if(history.length > 50){
+    const {game, history, server, owner} = this.data;
+    let setHistory = () => {
       this.setData({
-        history: history.slice(0, 50)
+        historyIndex: 0,
+        history: [{
+          redScore: game.red.score,
+          blueScore: game.blue.score,
+          server
+        }, ...history]
       })
-    } 
+      // 最多记录50条历史记录
+      if(history.length > 50){
+        this.setData({
+          history: history.slice(0, 50)
+        })
+      }
+    }
+    if (!owner || dataset.identifier === 'add' && this.ifGameOver()) return;
+     
     if (dataset.identifier === 'add') {
+      setHistory();
       game[dataset.team].score += 1
       this.setData({
         game,
@@ -71,6 +125,7 @@ Page({
         content: '确定重置比分为0:0？',
         success (res) {
           if (res.confirm) {
+            setHistory();
             game['red'].score = 0
             game['blue'].score = 0    
             _this.setData({
@@ -88,7 +143,8 @@ Page({
       name: 'curd',
       data: {
         action: 'update',
-        game: this.data.game
+        game: this.data.game,
+        openid: this.data.openid
       }
     })
   },
@@ -119,7 +175,12 @@ Page({
     return false
   },
   getGameById(){
-    callFunction({
+    if(this.data.asyncDisable)return;
+    this.setData({
+      asyncData: true,
+      asyncDisable: true
+    })
+    return callFunction({
       name: 'curd',
       data: {
         action: 'retriveById',
@@ -127,8 +188,15 @@ Page({
       }
     }).then(res => {
       this.setData({
-        game: res.data
+        game: res.data,
+        owner: res.data.create_user_id === wx.getStorageSync('openid'),
+        asyncData: false
       })
+      setTimeout(() => {
+        this.setData({
+          asyncDisable: false
+        })
+      }, DISABLED_ASYNC_INTERVAL)
     })
   },
   undo() {

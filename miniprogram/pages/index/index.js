@@ -20,6 +20,12 @@ Page({
     this.getUserInfo();
   },
 
+  onShareAppMessage(){
+    return {
+      title: '羽毛球比赛在线记分'
+    }
+  },
+
   setGame(e){
     this.setData({
       [e.currentTarget.dataset.field]: e.detail.value

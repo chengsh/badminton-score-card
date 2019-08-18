@@ -107,6 +107,9 @@ async function updateGame(event){
   if(!event.game._id){
     return paramError();
   }
+  if(event.openid !== event.game.create_user_id){
+    return paramError('无权限');  
+  }
   await db.collection(collectionName).doc(event.game._id).update({
     data: {
       red: event.game.red,

@@ -1,9 +1,14 @@
 <div class="game-score">
-  <div class="game-btns">
+  <div class="game-btns" wx:if="{{owner}}">
     <span class="{{history[historyIndex] ? 'undo' : 'undo disabled'}}" bindtap="undo">
       <image src="/images/undo.svg"></image>
     </span>
-    <span class="reset" data-identifier="reset" bindtap="computed"><image src="/images/reset.svg"></image></span>
+    <span class="reset" data-identifier="reset" bindtap="computed"><image src="/images/clear.svg"></image></span>
+  </div>
+  <div class="game-btns" wx:else>
+    <span class="{{asyncDisable ? 'async disabled' : 'async'}}" bindtap="getGameById">
+      <image class="{{asyncData ? 'loading' : ''}}" src="/images/async.svg"></image>
+    </span>
   </div>
   <h3 class="game-title">{{game.game_title}}</h3>
   <div class="game-scoring">
