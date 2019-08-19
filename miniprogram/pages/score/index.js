@@ -8,6 +8,9 @@ const DISABLED_ASYNC_INTERVAL = 5000;
 
 Page({
   data: {
+    // 21分制
+    total: 21,
+    maxScore: 30,
     // 是否有权限修改比分
     owner: true,
     // 是否在同步比分
@@ -18,8 +21,6 @@ Page({
     asyncDisable: false,
     game_id: '',
     openid: '',
-    total: 21,
-    maxScore: 30,
     // 记录历史分数，便于撤销
     history: [],
     historyIndex: 0,
@@ -188,11 +189,29 @@ Page({
         game_id: this.data.game_id
       }
     }).then(res => {
-      this.setData({
-        game: res.data,
-        owner: res.data.create_user_id === this.data.openid,
-        asyncData: false
-      })
+      if(res.data){
+        this.setData({
+          game: res.data,
+          owner: res.data.create_user_id === this.data.openid,
+          asyncData: false
+        })
+      }else{
+        let duration = 3000;
+
+        clearInterval(this.data.asyncTimer);
+        wx.showToast({
+          title: res.errMsg || '数据不存在',
+          icon: 'none',
+          duration,
+          success: () => {
+            setTimeout(() => {
+              wx.navigateTo({
+                url: `/pages/index/index`
+              })
+            }, duration)
+          }
+        })
+      }
       setTimeout(() => {
         this.setData({
           asyncDisable: false

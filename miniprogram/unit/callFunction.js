@@ -7,11 +7,9 @@ let callFunction = function(param){
 		wx.cloud
 			.callFunction(param)
 			.then((res) => {
-				console.log(res);
 				wx.hideLoading();
 				resolve(res.result);
 			}).catch(err => {
-				console.log(err);
 				wx.hideLoading();
 				wx.showToast({
 				  title: err.errMsg,

@@ -11,7 +11,7 @@
           data-index="{{index}}"
           bind:touchstart="handleTouchStart"
           bind:touchend="handleTouchEnd">
-          <navigator class="game-item-navigator" url="{{item.url}}">{{item.game_title}}</navigator>
+          <navigator class="game-item-navigator" url="{{item.url}}">{{index+1}}. {{item.game_title}}</navigator>
           <span class="delete-game-item" bindtap="removeGame" data-index="{{index}}">删除</span>
         </movable-view>
       </movable-area>

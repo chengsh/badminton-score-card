@@ -3,15 +3,8 @@ const cloud = require('wx-server-sdk')
 const collectionName = 'games';
 const databaseEnv = 'game-pcm9t';
 
-const paramError = errMsg => {
-  let defaultMsg = '参数错误';
-
-  return Promise.reject({
-    err: {
-      code: 400,
-      msg: errMsg || defaultMsg
-    }
-  });
+const paramError = (errMsg = '参数错误') => {
+  return Promise.reject(errMsg);
 }
 
 cloud.init()
@@ -130,7 +123,7 @@ function retriveGameById(event){
     return paramError();
   }
   return new Promise(async (resolve, reject) => {
-    await db.collection(collectionName).doc('event.game_id').get()
+    await db.collection(collectionName).doc(event.game_id).get()
       .then(res => resolve(res))
       .catch(err => {
         resolve({
