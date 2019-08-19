@@ -7,27 +7,17 @@ let callFunction = function(param){
 		wx.cloud
 			.callFunction(param)
 			.then((res) => {
+				console.log(res);
 				wx.hideLoading();
-				if(res.result.code == 200){
-					resolve(res.result);
-				}else{
-					let err = res.result.err || {};
-
-					wx.showToast({
-					  title: err.msg || '请求失败',
-					  icon: 'none',
-					  duration: 2000
-					})
-					reject(res.result.err);
-				}
+				resolve(res.result);
 			}).catch(err => {
+				console.log(err);
 				wx.hideLoading();
 				wx.showToast({
 				  title: err.errMsg,
 				  icon: 'none',
 				  duration: 2000
 				})
-				reject(err);
 			})
 	}) 
 }

@@ -79,7 +79,7 @@ Page({
         loading: false
       })
       wx.navigateTo({
-        url: `/pages/score/index?game_id=${res.data['id']}`
+        url: `/pages/score/index?game_id=${res['_id']}`
       })
     }).catch(err => {
       this.setData({

@@ -6,12 +6,12 @@ const databaseEnv = 'game-pcm9t';
 const paramError = errMsg => {
   let defaultMsg = '参数错误';
 
-  return {
+  return Promise.reject({
     err: {
       code: 400,
       msg: errMsg || defaultMsg
     }
-  };
+  });
 }
 
 cloud.init()
@@ -60,7 +60,7 @@ async function createGame(event){
     }).remove()
   }
 
-  let newResult = await db.collection(collectionName).add({
+  return await db.collection(collectionName).add({
     data: {
       create_time: Date.now(),
       game_title: event.game.game_title,
@@ -75,13 +75,6 @@ async function createGame(event){
       }
     }
   })
-  return {
-    code: 200,
-    data: {
-      id: newResult._id
-    },
-    msg: '创建成功'
-  }
 }
 
 // 删除
@@ -92,11 +85,7 @@ async function removeGame(event){
   if(!event.game_id){
     return paramError();
   }
-  await db.collection(collectionName).doc(event.game_id).remove();
-  return {
-    code: 200,
-    msg: '删除成功'
-  }
+  return await db.collection(collectionName).doc(event.game_id).remove();
 }
 
 // 更新
@@ -110,16 +99,12 @@ async function updateGame(event){
   if(event.openid !== event.game.create_user_id){
     return paramError('无权限');  
   }
-  await db.collection(collectionName).doc(event.game._id).update({
+  return await db.collection(collectionName).doc(event.game._id).update({
     data: {
       red: event.game.red,
       blue: event.game.blue
     }
   });
-  return {
-    code: 200,
-    msg: '更新成功'
-  }
 }
 
 // 查找我创建的比赛
@@ -131,26 +116,27 @@ async function retriveGameByOpenid(event){
   if(!event.openid){
     return paramError();
   }
-  let result = await db.collection(collectionName).where({
+  return await db.collection(collectionName).where({
     create_user_id: event.openid
   }).orderBy('create_time', 'desc').limit(50).get();
-  return {
-    code: 200,
-    data: result.data
-  }
 }
 
 // 通过ID查找比赛
-async function retriveGameById(event){
+function retriveGameById(event){
   const db = cloud.database({
     env: databaseEnv
   })
   if(!event.game_id){
     return paramError();
   }
-  let result = await db.collection(collectionName).doc(event.game_id).get();
-  return {
-    code: 200,
-    data: result.data
-  }
+  return new Promise(async (resolve, reject) => {
+    await db.collection(collectionName).doc('event.game_id').get()
+      .then(res => resolve(res))
+      .catch(err => {
+        resolve({
+          errMsg: '比赛不存在或已删除'
+        });
+      })
+  })
+  
 }
