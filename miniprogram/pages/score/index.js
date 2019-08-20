@@ -2,7 +2,7 @@ import callFunction from '../../unit/callFunction';
 
 const app = getApp()
 // 轮询间隔
-const ASYNC_INTERVAL = 15000;
+const ASYNC_INTERVAL = 5000;
 // 同步按钮禁用间隔
 const DISABLED_ASYNC_INTERVAL = 5000;
 
@@ -41,10 +41,6 @@ Page({
 
   onLoad: function(option) {
     wx.hideLoading();
-    // 界面常亮
-    wx.setKeepScreenOn({
-      keepScreenOn: true
-    })
     this.setData({
       game_id: option.game_id,
       openid: wx.getStorageSync('openid')
@@ -70,7 +66,11 @@ Page({
       this.data.asyncTimer = null;
     }
   },
-  onShow(){
+  onShow() {
+    // 界面常亮
+    wx.setKeepScreenOn({
+      keepScreenOn: true
+    })
     if(!this.data.asyncTimer){
       this.pollRequest();
     }
@@ -205,7 +205,7 @@ Page({
           duration,
           success: () => {
             setTimeout(() => {
-              wx.navigateTo({
+              wx.redirectTo({
                 url: `/pages/index/index`
               })
             }, duration)

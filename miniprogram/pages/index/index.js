@@ -17,7 +17,7 @@ Page({
 
   onLoad: async function(){
     wx.hideLoading();
-    this.getUserInfo();
+    await this.getUserInfo();
   },
 
   onShareAppMessage(){
@@ -37,7 +37,7 @@ Page({
       title: '加载中',
     })
     wx.cloud.init()
-    await wx.cloud.callFunction({
+    return await wx.cloud.callFunction({
       name: 'login',
       complete: res => {
         this.setData({
