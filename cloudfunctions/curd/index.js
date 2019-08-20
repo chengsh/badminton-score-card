@@ -1,13 +1,17 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 const collectionName = 'games';
-const databaseEnv = 'game-pcm9t';
+const releaseEnv = 'game-pcm9t';
+const developEnv = 'test-7w5bo';
 
 const paramError = (errMsg = '参数错误') => {
   return Promise.reject(errMsg);
 }
 
-cloud.init()
+cloud.init({
+  env: releaseEnv
+  // env: developEnv
+})
 
 // 云函数入口函数
 exports.main = async (event) => {
@@ -35,9 +39,7 @@ exports.main = async (event) => {
 
 // 新增比赛
 async function createGame(event){
-  const db = cloud.database({
-    env: databaseEnv
-  })
+  const db = cloud.database();
   // 查询当前用户创建比赛数量，超出50条则删除最旧的1条数据
   const result = await db.collection(collectionName).where({
     create_user_id: event.game.openid
@@ -72,9 +74,7 @@ async function createGame(event){
 
 // 删除
 async function removeGame(event){
-  const db = cloud.database({
-    env: databaseEnv
-  })
+  const db = cloud.database();
   if(!event.game_id){
     return paramError();
   }
@@ -83,9 +83,7 @@ async function removeGame(event){
 
 // 更新
 async function updateGame(event){
-  const db = cloud.database({
-    env: databaseEnv
-  })
+  const db = cloud.database();
   if(!event.game._id){
     return paramError();
   }
@@ -102,9 +100,7 @@ async function updateGame(event){
 
 // 查找我创建的比赛
 async function retriveGameByOpenid(event){
-  const db = cloud.database({
-    env: databaseEnv
-  })
+  const db = cloud.database();
 
   if(!event.openid){
     return paramError();
@@ -116,9 +112,7 @@ async function retriveGameByOpenid(event){
 
 // 通过ID查找比赛
 function retriveGameById(event){
-  const db = cloud.database({
-    env: databaseEnv
-  })
+  const db = cloud.database();
   if(!event.game_id){
     return paramError();
   }
