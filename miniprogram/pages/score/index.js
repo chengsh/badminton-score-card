@@ -76,6 +76,10 @@ Page({
     }
   },
   onUnload(){
+    // 关闭界面常亮
+    wx.setKeepScreenOn({
+      keepScreenOn: false
+    })
     if(this.data.asyncTimer){
       clearInterval(this.data.asyncTimer);
       this.data.asyncTimer = null;

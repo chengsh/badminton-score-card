@@ -1,6 +1,6 @@
 <view class="container">
   <div class="game-list" bindtap="resetSwipe">
-    <view wx:for="{{history}}" wx:for-index="index" wx:for-item="item" wx:key="_id" class="game-item">
+    <view wx:for="{{history}}" wx:for-index="index" wx:for-item="item" class="game-item">
       <movable-area class="movable-area">
         <movable-view 
           class="movable-view"

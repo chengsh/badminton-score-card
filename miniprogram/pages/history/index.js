@@ -63,7 +63,7 @@ Page({
       }
     }).then(res => {
       this.setData({
-        history: res.data.map((item, index) => {
+        history: res.data.map(item => {
           item.url = `/pages/score/index?game_id=${item._id}`;
           item.moveX = 0;
           return item;
