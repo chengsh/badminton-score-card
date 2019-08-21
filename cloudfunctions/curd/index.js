@@ -9,8 +9,8 @@ const paramError = (errMsg = '参数错误') => {
 }
 
 cloud.init({
-  env: releaseEnv
-  // env: developEnv
+  // env: releaseEnv
+  env: developEnv
 })
 
 // 云函数入口函数

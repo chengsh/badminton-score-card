@@ -1,7 +1,12 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
+const releaseEnv = 'game-pcm9t';
+const developEnv = 'test-7w5bo';
 
-cloud.init()
+cloud.init({
+	// env: releaseEnv
+	env: developEnv
+})
 
 // 云函数入口函数
 exports.main = async (event, context) => {
