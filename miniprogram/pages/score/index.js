@@ -146,11 +146,9 @@ Page({
   },
   updateGameScore() {
     callFunction({
-      name: 'curd',
+      name: 'update',
       data: {
-        action: 'update',
-        game: this.data.game,
-        openid: this.data.openid
+        game: this.data.game
       }
     })
   },
@@ -187,9 +185,8 @@ Page({
       asyncDisable: true
     })
     return callFunction({
-      name: 'curd',
+      name: 'getGameById',
       data: {
-        action: 'retriveById',
         game_id: this.data.game_id
       }
     }).then(res => {

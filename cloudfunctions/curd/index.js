@@ -1,53 +1,51 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 const collectionName = 'games';
-const releaseEnv = 'game-pcm9t';
-const developEnv = 'test-7w5bo';
 
 const paramError = (errMsg = '参数错误') => {
   return Promise.reject(errMsg);
 }
-
 cloud.init({
-  // env: releaseEnv
-  env: developEnv
-})
-
+  // env: 'test-7w5bo'
+  env: 'game-pcm9t'
+});
 // 云函数入口函数
 exports.main = async (event) => {
+  const { OPENID } = cloud.getWXContext()
+
   switch (event.action) {
     case 'create': {
-      return createGame(event)
+      return createGame(event, OPENID)
     }
     case 'delete': {
       return removeGame(event)
     }
     case 'update': {
-      return updateGame(event)
+      return updateGame(event, OPENID)
     }
     case 'retriveAll': {
-      return retriveGameByOpenid(event)
+      return retriveGameByOpenid(event, OPENID)
     }
     case 'retriveById': {
       return retriveGameById(event)
     }
     default: {
-      return
+      return paramError()
     }
   }
 }
 
 // 新增比赛
-async function createGame(event){
+async function createGame(event, OPENID){
   const db = cloud.database();
   // 查询当前用户创建比赛数量，超出50条则删除最旧的1条数据
   const result = await db.collection(collectionName).where({
-    create_user_id: event.game.openid
+    create_user_id: OPENID
   }).count()
 
   if(result.total >= 50){
     let lastResult = await db.collection(collectionName).where({
-        create_user_id: event.game.openid
+        create_user_id: OPENID
       }).orderBy('create_time', 'asc').limit(1).get()
     
     await db.collection(collectionName).where({
@@ -59,7 +57,7 @@ async function createGame(event){
     data: {
       create_time: Date.now(),
       game_title: event.game.game_title,
-      create_user_id: event.game.openid,
+      create_user_id: OPENID,
       red: {
         name: event.game.red_name,
         score: 0
@@ -82,12 +80,13 @@ async function removeGame(event){
 }
 
 // 更新
-async function updateGame(event){
+async function updateGame(event, OPENID){
   const db = cloud.database();
+
   if(!event.game._id){
     return paramError();
   }
-  if(event.openid !== event.game.create_user_id){
+  if(OPENID !== event.game.create_user_id){
     return paramError('无权限');  
   }
   return await db.collection(collectionName).doc(event.game._id).update({
@@ -99,14 +98,11 @@ async function updateGame(event){
 }
 
 // 查找我创建的比赛
-async function retriveGameByOpenid(event){
+async function retriveGameByOpenid(event, OPENID){
   const db = cloud.database();
 
-  if(!event.openid){
-    return paramError();
-  }
   return await db.collection(collectionName).where({
-    create_user_id: event.openid
+    create_user_id: OPENID
   }).orderBy('create_time', 'desc').limit(50).get();
 }
 

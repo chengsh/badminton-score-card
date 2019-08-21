@@ -7,7 +7,6 @@ wx.cloud.init()
 Page({
   data: {
     loading: false,
-    openid: '',
     game_title: '',
     red_name: '',
     blue_name: ''
@@ -38,9 +37,6 @@ Page({
     return await wx.cloud.callFunction({
       name: 'login',
       complete: res => {
-        this.setData({
-          openid: res.result.openid
-        })
         wx.hideLoading();
         wx.setStorageSync('openid', res.result.openid);
       }
@@ -48,22 +44,16 @@ Page({
   },
 
   createGame: async function(){
-    const { game_title, red_name, blue_name, openid } = this.data;
+    const { game_title, red_name, blue_name } = this.data;
 
     this.setData({
       loading: true
     })
-    // 避免创建没有create_user_id的比赛
-    if(openid == ''){
-      await this.getUserInfo();
-    }
     
     await callFunction({
-      name: 'curd',
+      name: 'create',
       data: {
-        action: 'create',
         game: {
-          openid: openid,
           game_title: game_title.trim() || '羽毛球大赛',
           red_name: red_name.trim() || '红队',
           blue_name: blue_name.trim() || '蓝队'

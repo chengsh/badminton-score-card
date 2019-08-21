@@ -4,7 +4,6 @@ const app = getApp()
 
 Page({
   data: {
-  	openid: '',
     history: [],
     startX: 0,
     deleteBtnWidth: 68
@@ -12,9 +11,6 @@ Page({
 
   onLoad: function() {
     wx.hideLoading();
-    this.setData({
-      openid: wx.getStorageSync('openid')
-    })
     this.getHistory();
   },
 
@@ -56,11 +52,7 @@ Page({
 
   getHistory(){
     callFunction({
-      name: 'curd',
-      data: {
-        action: 'retriveAll',
-        openid: this.data.openid
-      }
+      name: 'getHistory'
     }).then(res => {
       this.setData({
         history: res.data.map(item => {
@@ -80,9 +72,8 @@ Page({
     })
 
     callFunction({
-      name: 'curd',
+      name: 'remove',
       data: {
-        action: 'delete',
         game_id: this.data.history[index]._id
       }
     }).then(res => {
