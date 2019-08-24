@@ -14,7 +14,6 @@
           bindinput="setGame" 
           maxlength="30" 
           placeholder="比赛名称" 
-          auto-focus 
           data-field="game_title" />
       </view>
       <view class="section">

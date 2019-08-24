@@ -81,6 +81,11 @@ Page({
       this.setData({
         history: this.data.history
       })
+      wx.showToast({
+        title: '删除成功',
+        icon: 'success',
+        duration: 2000
+      })
     })
   }
 

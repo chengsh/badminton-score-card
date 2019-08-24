@@ -19,7 +19,10 @@ exports.main = async (event) => {
   }
   return new Promise(async (resolve, reject) => {
     await db.collection(collectionName).doc(event.game_id).get()
-      .then(res => resolve(res))
+      .then(res => {
+        res.data.owner = res.data.create_user_id === OPENID;
+        resolve(res);
+      })
       .catch(err => {
         resolve({
           errMsg: '比赛不存在或已删除'

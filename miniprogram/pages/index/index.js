@@ -12,9 +12,13 @@ Page({
     blue_name: ''
   },
 
-  onLoad: async function(){
+  onLoad: function(option){
     wx.hideLoading();
-    await this.getUserInfo();
+    if(option.game_id && option.game_id.length > 0){
+      wx.navigateTo({
+        url: `/pages/score/index?game_id=${option.game_id}`
+      })
+    }
   },
 
   onShareAppMessage(){
@@ -26,20 +30,6 @@ Page({
   setGame(e){
     this.setData({
       [e.currentTarget.dataset.field]: e.detail.value
-    })
-  },
-
-  getUserInfo: async function(){
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.cloud.init()
-    return await wx.cloud.callFunction({
-      name: 'login',
-      complete: res => {
-        wx.hideLoading();
-        wx.setStorageSync('openid', res.result.openid);
-      }
     })
   },
 

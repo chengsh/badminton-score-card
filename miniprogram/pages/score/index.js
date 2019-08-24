@@ -11,8 +11,6 @@ Page({
     // 21分制
     total: 21,
     maxScore: 30,
-    // 是否有权限修改比分
-    owner: true,
     // 是否在同步比分
     asyncData: false,
     // 轮询定时器
@@ -53,7 +51,7 @@ Page({
 
   // 查看比分，轮询
   pollRequest(){
-    if(!this.data.owner){
+    if(!this.data.game.owner){
       clearInterval(this.data.asyncTimer);
       this.data.asyncTimer = setInterval(() => {
         this.getGameById();
@@ -90,13 +88,13 @@ Page({
 
     return {
       title: `${game.red.name} VS ${game.blue.name}，${game.red.score} : ${game.blue.score}`,
-      path: `/pages/score/index?game_id=${game_id}`
+      path: `/pages/index/index?game_id=${game_id}`
     }
   },
 
   computed (e) {
     const {dataset} = e.currentTarget;
-    const {game, history, server, owner} = this.data;
+    const {game, history, server} = this.data;
     let setHistory = () => {
       this.setData({
         historyIndex: 0,
@@ -113,7 +111,7 @@ Page({
         })
       }
     }
-    if (!owner || dataset.identifier === 'add' && this.ifGameOver()) return;
+    if (!game.owner || dataset.identifier === 'add' && this.ifGameOver()) return;
      
     if (dataset.identifier === 'add') {
       setHistory();
@@ -193,7 +191,6 @@ Page({
       if(res.data){
         this.setData({
           game: res.data,
-          owner: res.data.create_user_id === this.data.openid,
           asyncData: false
         })
       }else{
