@@ -6,7 +6,7 @@
     <span class="reset" data-identifier="reset" bindtap="computed"><image src="/images/clear.svg"></image></span>
   </div>
   <div class="game-btns" wx:elif="{{!game.owner}}">
-    <span class="{{asyncDisable ? 'async disabled' : 'async'}}" bindtap="getGameById">
+    <span class="{{asyncDisable ? 'async disabled' : 'async'}}" bindtap="asyncDataHandle">
       <image class="{{asyncData ? 'loading' : ''}}" src="/images/async.svg"></image>
     </span>
   </div>

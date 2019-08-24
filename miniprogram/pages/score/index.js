@@ -18,7 +18,6 @@ Page({
     // 禁用主动触发轮询
     asyncDisable: false,
     game_id: '',
-    openid: '',
     // 记录历史分数，便于撤销
     history: [],
     historyIndex: 0,
@@ -40,18 +39,23 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id,
-      openid: wx.getStorageSync('openid')
+      game_id: option.game_id
     },() => {
-      this.getGameById().then(() => {
-        this.pollRequest();
+      this.getGameById().then((res) => {
+        this.pollRequest(res.data.owner);
       });
     })
   },
 
+  asyncDataHandle(){
+    if(!this.data.asyncDisable){
+      this.getGameById();
+    }
+  },
+
   // 查看比分，轮询
-  pollRequest(){
-    if(!this.data.game.owner){
+  pollRequest(owner = true){
+    if(!owner){
       clearInterval(this.data.asyncTimer);
       this.data.asyncTimer = setInterval(() => {
         this.getGameById();
@@ -70,7 +74,7 @@ Page({
       keepScreenOn: true
     })
     if(!this.data.asyncTimer){
-      this.pollRequest();
+      this.pollRequest(this.data.game.owner);
     }
   },
   onUnload(){
@@ -177,7 +181,6 @@ Page({
     return false
   },
   getGameById(){
-    if(this.data.asyncDisable)return;
     this.setData({
       asyncData: true,
       asyncDisable: true
@@ -215,6 +218,7 @@ Page({
           asyncDisable: false
         })
       }, DISABLED_ASYNC_INTERVAL)
+      return res;
     })
   },
   undo() {
