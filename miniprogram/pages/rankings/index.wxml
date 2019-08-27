@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="motion-type">
+    <view class="motion-type-item active" data-type="MS" bindtap="getRankings">男单</view>
+    <view class="motion-type-item" data-type="WS" bindtap="getRankings">女单</view>
+    <view class="motion-type-item" data-type="MD" bindtap="getRankings">男双</view>
+    <view class="motion-type-item" data-type="WD" bindtap="getRankings">女双</view>
+    <view class="motion-type-item" data-type="MX" bindtap="getRankings">混双</view>
+  </view>
+  <div class="game-list">
+    <view class="rank-table">
+      <view class='thead'>
+        <view class='tr'>
+          <view class='th'>排名</view>
+          <view class='th name'>姓名</view>
+          <view class='th'>国家</view>
+          <view class='th'>积分</view>
+        </view>
+      </view>
+      <view class='tbody'>
+        <view wx:for="{{rankings}}" wx:for-index="index" wx:for-item="item" wx:key="item._id" class='tr'>
+          <view class='td rank'>{{index+1}}</view>
+          <view class='td name'>{{item.cnName}}</view>
+          <view class='td country'>日本</view>
+          <view class='td integral'>23779</view>
+        </view>
+      </view>
+    </view> 
+  </div>
+</view>

@@ -1,0 +1,112 @@
+@import (reference)'../../style/common.less';
+
+.game-list{
+  position: relative;
+  width: 100vw;
+  padding: 40rpx 0;
+  overflow: hidden;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #069345;
+  &:before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100vw;
+    height: 230vh;
+    left: 40rpx;
+    top: 0;
+    z-index: 0;
+    background: linear-gradient(#0b54a7, #166dd1);
+    transform: rotate(33deg);
+  }
+}
+.game-item{
+  position: relative;
+  width: 100vw;
+  height: 100rpx;
+  box-sizing: border-box;
+  line-height: 100rpx;
+  color: white;
+  z-index: 1;
+  .game-item-navigator{
+    width: 100vw;
+    height: 100%;
+    padding: 0 40rpx;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    font-size: 28rpx;
+    border-bottom: 2rpx dashed rgba(255,255,255,0.3);
+  }
+}
+.motion-type{
+  width: 100vw;
+  display: flex;
+  background: #069345;
+  .motion-type-item{
+    flex: 1;
+    flex-direction: row;
+    font-size: 28rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    color: white;
+    border-top: 2px solid #069345;
+    &.active{
+      border-top-color: white;
+    }
+  }
+}
+
+.rank-table{
+  width: 100vw;
+  .thead .tr{
+    border: 1px solid rgba(255,255,255,0.3);
+    border-left: none;
+    border-right: none;
+  }
+  .tbody .tr{
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+  .thead,.tbody{
+    .tr{
+      display: flex;
+      text-align: center;
+      height: 80rpx;
+      line-height: 80rpx;
+    }
+    .th,.td{
+      font-size: 28rpx;
+      color: white;
+      white-space: nowrap;
+      overflow: hidden;
+      padding: 0 12rpx;
+      flex: 1;
+    }
+    .name{
+      text-align: left;
+      flex: 2;
+    }
+  }
+  .tbody{
+    .rank,.name,.country{
+      border-right: 1px solid rgba(255,255,255,0.3);
+    }
+  }
+}
+// iPad
+@media (min-width: 768px) {
+  .game-item{
+    height: 60rpx;
+    line-height: 60rpx;
+    .game-item-navigator{
+      height: 60rpx;
+      line-height: 60rpx;
+      font-size: 18rpx;
+      padding: 0 20rpx;
+    }
+  }  
+}

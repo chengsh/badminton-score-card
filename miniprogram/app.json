@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/rankings/index",
     "pages/index/index",
     "pages/score/index",
     "pages/history/index"
