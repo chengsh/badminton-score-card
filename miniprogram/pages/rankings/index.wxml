@@ -1,10 +1,10 @@
 <view class="container">
   <view class="motion-type">
-    <view class="motion-type-item active" data-type="MS" bindtap="getRankings">男单</view>
-    <view class="motion-type-item" data-type="WS" bindtap="getRankings">女单</view>
-    <view class="motion-type-item" data-type="MD" bindtap="getRankings">男双</view>
-    <view class="motion-type-item" data-type="WD" bindtap="getRankings">女双</view>
-    <view class="motion-type-item" data-type="MX" bindtap="getRankings">混双</view>
+    <view class="motion-type-item active" data-type="ms" bindtap="getRankings">男单</view>
+    <view class="motion-type-item" data-type="ws" bindtap="getRankings">女单</view>
+    <view class="motion-type-item" data-type="md" bindtap="getRankings">男双</view>
+    <view class="motion-type-item" data-type="wd" bindtap="getRankings">女双</view>
+    <view class="motion-type-item" data-type="mx" bindtap="getRankings">混双</view>
   </view>
   <div class="game-list">
     <view class="rank-table">

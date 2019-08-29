@@ -1,5 +1,5 @@
 {
-  "name": "updateRankings",
+  "name": "updateMSRankings",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,7 @@
   "dependencies": {
     "wx-server-sdk": "latest",
     "axios": "latest",
-    "cheerio": "latest"
+    "cheerio": "latest",
+    "dayjs": "latest"
   }
 }
