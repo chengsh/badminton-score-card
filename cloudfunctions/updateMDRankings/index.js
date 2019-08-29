@@ -53,13 +53,16 @@ exports.main = async (event, context) => {
     	for(let i = 0; i < 10; i++){
     		frontTenSportsman.push({
     			rank: i + 1,
-    			name: frontTen.eq(i).find('.player a').attr('title'),
-    			country: frontTen.eq(i).find('.country span').text().trim(),
+          name: frontTen.eq(i).find('.player a').eq(0).attr('title'),
+          name2: frontTen.eq(i).find('.player a').eq(1).attr('title'),
+          country: frontTen.eq(i).find('.country').eq(0).find('span').text().trim(),
+          country2: frontTen.eq(i).find('.country').eq(1).find('span').text().trim(),
     			integral: frontTen.eq(i).find('.point strong').text().trim().split(/\s*\/\s*/)[0]
     		})
     	}
 
     	await db.collection(`sportsman-${type}`).limit(40).get().then(res => {
+        // 运动员名转中文
     		frontTenSportsman = frontTenSportsman.map(item => {
     			let filter = res.data.filter(man => {
     				return man.name === item.name;
