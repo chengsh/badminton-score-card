@@ -1,4 +1,4 @@
-// 抓取羽毛球运动员排名
+// 抓取运动员排名
 const cloud = require('wx-server-sdk');
 const cheerio = require('cheerio');
 const axios = require('axios');
@@ -32,7 +32,6 @@ exports.main = async (event, context) => {
 	  }
 
 	  await db.collection(sportsmanCollectionName).limit(30).get().then(res => {
-	  	console.log(res);
 	  	frontTenSportsman = frontTenSportsman.map(item => {
 	  		let filter = res.data.filter(man => {
 	  			return man.name === item.name;
@@ -42,11 +41,16 @@ exports.main = async (event, context) => {
 	  		return item;
 	  	})
 	  });
-	  console.log(frontTenSportsman);
+	  // 删除男单运动员
+	  await db.collection(rankCollectionName).where({
+	  	type: 'ms'
+	  }).remove();
 	  // 存到数据库
-	  await db.collection(rankCollectionName).remove();
 	  await db.collection(rankCollectionName).add({
-	  	data: frontTenSportsman
+	  	data: {
+	  		type: 'ms',
+	  		sportsman: frontTenSportsman
+	  	}
 	  })
 	}catch(err){
 		console.error(err);

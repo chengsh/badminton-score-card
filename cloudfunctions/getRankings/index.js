@@ -14,7 +14,7 @@ exports.main = async (event) => {
   const db = cloud.database();
 
   return await db.collection(collectionName).where({
-    type: 'MS'
-  }).orderBy('rank', 'desc').limit(10).get();
+    type: 'ms'
+  }).get();
 }
 

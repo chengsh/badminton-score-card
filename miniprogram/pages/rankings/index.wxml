@@ -19,9 +19,9 @@
       <view class='tbody'>
         <view wx:for="{{rankings}}" wx:for-index="index" wx:for-item="item" wx:key="item._id" class='tr'>
           <view class='td rank'>{{index+1}}</view>
-          <view class='td name'>{{item.cnName}}</view>
-          <view class='td country'>日本</view>
-          <view class='td integral'>23779</view>
+          <view class='td name'>{{item.cn_name}}</view>
+          <view class='td country'>{{item.cn_country}}</view>
+          <view class='td integral'>{{item.integral}}</view>
         </view>
       </view>
     </view> 
