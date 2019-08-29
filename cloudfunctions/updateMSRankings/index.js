@@ -78,6 +78,9 @@ exports.main = async (event, context) => {
   	  	return await db.collection(rankCollectionName).add({
   	  		data: {
   	  			type,
+            update_time: dayjs().format('YYYY-MM-DD'),
+            year: fullYear,
+            week,
   	  			sportsman: frontTenSportsman
   	  		}
   	  	})

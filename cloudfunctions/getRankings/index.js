@@ -14,7 +14,7 @@ exports.main = async (event) => {
   const db = cloud.database();
 
   return await db.collection(collectionName).where({
-    type: 'ms'
+    type: event.type
   }).get();
 }
 

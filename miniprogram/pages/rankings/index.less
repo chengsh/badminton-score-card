@@ -5,7 +5,7 @@
   width: 100vw;
   padding: 40rpx 0;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: ~'calc(100vh - 80rpx)';
   box-sizing: border-box;
   background: #069345;
   &:before{
@@ -19,6 +19,17 @@
     z-index: 0;
     background: linear-gradient(#0b54a7, #166dd1);
     transform: rotate(33deg);
+  }
+  .update-week{
+    margin-top: 40rpx;
+  }
+  .update-week,.update-time{
+    color: white;
+    font-size: 26rpx;
+    text-align: center;
+    line-height: 60rpx;
+    position: relative;
+    z-index: 2;
   }
 }
 .game-item{
@@ -46,11 +57,12 @@
   width: 100vw;
   display: flex;
   background: #069345;
+  height: 80rpx;
   .motion-type-item{
     flex: 1;
     flex-direction: row;
     font-size: 28rpx;
-    height: 80rpx;
+    height: 100%;
     line-height: 80rpx;
     text-align: center;
     color: white;

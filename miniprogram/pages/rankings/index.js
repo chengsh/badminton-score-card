@@ -4,7 +4,11 @@ const app = getApp()
 
 Page({
   data: {
-    rankings: []
+    type: 'ms',
+    rankings: [],
+    year: '',
+    week: '',
+    update_time: ''
   },
 
   onLoad: function() {
@@ -12,15 +16,25 @@ Page({
     this.getRankings();
   },
 
-  getRankings(){
+  getRankings(e){
+    let type = e ? e.currentTarget.dataset.type : 'ms';
+
     callFunction({
-      name: 'getRankings'
-    }).then(res => {
-      if(res.data.length > 0){
-        this.setData({
-          rankings: res.data[0].sportsman
-        })
+      name: 'getRankings',
+      data: {
+        type
       }
+    }).then(res => {
+      console.log(res);
+      let result = res.data.length > 0 ? res.data[0] : {};
+
+      this.setData({
+        rankings: result.sportsman || [],
+        year: result.year || '',
+        week: result.week || '',
+        update_time: result.update_time || '',
+        type,
+      })
     })
   }
 
