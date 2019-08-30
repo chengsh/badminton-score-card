@@ -16,7 +16,7 @@ cloud.init({
 exports.main = async (event, context) => {
   let wxContext = cloud.getWXContext()
   let db = cloud.database();
-  let type = 'md';
+  let type = 'mx';
   let fullYear = new Date().getFullYear();
   let week = dayjs().week();
   let total = 5;

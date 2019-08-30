@@ -18,10 +18,20 @@
       </view>
       <view class='tbody'>
         <view wx:for="{{rankings}}" wx:for-index="index" wx:for-item="item" wx:key="item._id" class='tr'>
-          <view class='td rank'>{{index+1}}</view>
-          <view class='td name'>{{item.cn_name}}</view>
-          <view class='td country'>{{item.cn_country}}</view>
-          <view class='td integral'>{{item.integral}}</view>
+          <view class='td rank'>
+            <view class="rank-view">{{index+1}}</view>
+          </view>
+          <view class='td name'>
+            <view>{{item.cn_name}}</view>
+            <view wx:if="{{item.cn_name2.length}}">{{item.cn_name2}}</view>
+          </view>
+          <view class='td country'>
+            <view>{{item.cn_country}}</view>
+            <view wx:if="{{item.cn_country2.length}}">{{item.cn_country2}}</view>
+          </view>
+          <view class='td integral'>
+            <view class='integral-view'>{{item.integral}}</view>
+          </view>
         </view>
       </view>
     </view> 

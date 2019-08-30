@@ -89,7 +89,7 @@
     .tr{
       display: flex;
       text-align: center;
-      height: 80rpx;
+      min-height: 80rpx;
       line-height: 80rpx;
     }
     .th,.td{
@@ -106,8 +106,17 @@
     }
   }
   .tbody{
+    .rank,.name,.country,.integral{
+      position: relative;
+    }
     .rank,.name,.country{
       border-right: 1px solid rgba(255,255,255,0.3);
+    }
+    .rank-view,.integral-view{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }

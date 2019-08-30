@@ -3,12 +3,12 @@
   "triggers": [
     {
       // name: 触发器的名字，规则见下方说明
-      "name": "updateWSRankings",
+      "name": "updateMXRankings",
       // type: 触发器类型，目前仅支持 timer (即 定时触发器)
       "type": "timer",
       // config: 触发器配置，在定时触发器下，config 格式为 cron 表达式，规则见下方说明
-      // 每周二零点1分更新
-      "config": "0 1 0 * * 1 *"
+      // 每周二零点4分更新
+      "config": "0 4 0 * * 1 *"
     }
   ]
 }

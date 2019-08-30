@@ -25,7 +25,6 @@ Page({
         type
       }
     }).then(res => {
-      console.log(res);
       let result = res.data.length > 0 ? res.data[0] : {};
 
       this.setData({
