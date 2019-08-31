@@ -111,6 +111,12 @@
 }
 // iPad
 @media (min-width: 768px) {
+  .game-list{
+    min-height: ~'calc(100vh - 50rpx)';
+    .update-week{
+      font-size: 16rpx;
+    }
+  }
   .game-item{
     height: 60rpx;
     line-height: 60rpx;
@@ -120,5 +126,23 @@
       font-size: 18rpx;
       padding: 0 20rpx;
     }
+  }
+  .motion-type{
+    height: 50rpx;
+    .motion-type-item{
+      line-height: 50rpx;
+      font-size: 18rpx;
+    }
   }  
+  .rank-table{
+    .thead,.tbody{
+      .tr{
+        min-height: 50rpx;
+        line-height: 50rpx;
+      }
+      .th,.td{
+        font-size: 18rpx;
+      }
+    }
+  }
 }
