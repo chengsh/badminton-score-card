@@ -8,8 +8,8 @@ const rankCollectionName = 'rankings';
 dayjs.extend(weekOfYear);
 
 cloud.init({
-	env: 'test-7w5bo'
-	// env: 'game-pcm9t'
+	// env: 'test-7w5bo'
+	env: 'game-pcm9t'
 })
 
 // 云函数入口函数

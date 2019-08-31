@@ -8,26 +8,12 @@
   min-height: ~'calc(100vh - 80rpx)';
   box-sizing: border-box;
   background: #069345;
-  &:before{
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100vw;
-    height: 230vh;
-    left: 40rpx;
-    top: 0;
-    z-index: 0;
-    background: linear-gradient(#0b54a7, #166dd1);
-    transform: rotate(33deg);
-  }
   .update-week{
-    margin-top: 40rpx;
-  }
-  .update-week,.update-time{
     color: white;
     font-size: 26rpx;
+    margin-top: 36rpx;
     text-align: center;
-    line-height: 60rpx;
+    line-height: 40rpx;
     position: relative;
     z-index: 2;
   }
@@ -82,7 +68,7 @@
     border-left: none;
     border-right: none;
   }
-  .tbody .tr{
+  .tbody .tr:last-child{
     border-bottom: 1px solid rgba(255,255,255,0.3);
   }
   .thead,.tbody{
@@ -91,6 +77,9 @@
       text-align: center;
       min-height: 80rpx;
       line-height: 80rpx;
+      &:nth-child(even){
+        background: #058840;
+      }
     }
     .th,.td{
       font-size: 28rpx;

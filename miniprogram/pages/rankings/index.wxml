@@ -35,7 +35,6 @@
         </view>
       </view>
     </view> 
-    <view class="update-week" wx:if="{{rankings.length}}">{{year}}年第{{week}}周</view>
-    <view class="update-time" wx:if="{{rankings.length}}">更新时间：{{update_time}}</view>
+    <view class="update-week" wx:if="{{rankings.length}}">{{year}}年第{{week}}周（{{update_time}}）</view>
   </div>
 </view>

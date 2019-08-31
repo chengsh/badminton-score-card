@@ -8,25 +8,20 @@ Page({
     rankings: [],
     year: '',
     week: '',
-    update_time: ''
+    update_time: '',
+    cache: {}
   },
 
   onLoad: function() {
     wx.hideLoading();
     this.getRankings();
   },
-
+  onHide(){
+    this.data.cache = {};
+  },
   getRankings(e){
     let type = e ? e.currentTarget.dataset.type : 'ms';
-
-    callFunction({
-      name: 'getRankings',
-      data: {
-        type
-      }
-    }).then(res => {
-      let result = res.data.length > 0 ? res.data[0] : {};
-
+    let setData = result => {
       this.setData({
         rankings: result.sportsman || [],
         year: result.year || '',
@@ -34,6 +29,24 @@ Page({
         update_time: result.update_time || '',
         type,
       })
+    }
+    if(e && type === this.data.type)return;
+    if(this.data.cache[type]){
+      let result = this.data.cache[type];
+
+      setData(result);
+      return;
+    }
+    callFunction({
+      name: 'getRankings',
+      data: {
+        type
+      }
+    }).then(res => {
+      let result = res.data.length > 0 ? res.data[0] : {};
+      this.data.cache[type] = result;
+      
+      setData(result);
     })
   }
 
