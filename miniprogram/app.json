@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/rankings/index",
     "pages/index/index",
     "pages/score/index",
+    "pages/rankings/index",
     "pages/history/index"
   ],
   "window": {
