@@ -19,6 +19,11 @@ Page({
   onHide(){
     this.data.cache = {};
   },
+  onShareAppMessage(){
+    return {
+      title: `${this.data.year}年第${this.data.week}周羽联世界排名`
+    }
+  },
   getRankings(e){
     let type = e ? e.currentTarget.dataset.type : 'ms';
     let setData = result => {
