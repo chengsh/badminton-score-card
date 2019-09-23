@@ -1,0 +1,36 @@
+<view class="container">
+  <view class="motion-type">
+    <view class="motion-type-item {{type == 'remaining' ? 'active' : ''}}" data-type="remaining" bindtap="getRankings">未结束</view>
+    <view class="motion-type-item {{type == 'completed' ? 'active' : ''}}" data-type="completed" bindtap="getRankings">已结束</view>
+    <view class="motion-type-item {{type == 'all' ? 'active' : ''}}" data-type="all" bindtap="getRankings">全部</view>
+  </view>
+  <div class="game-list">
+    <view class="rank-table">
+      <view class='thead'>
+        <view class='tr'>
+          <view class='th name'>赛事&时间</view>
+          <view class='th'>级别</view>
+          <view class='th'>举办地</view>
+          <view class='th'>奖金</view>
+        </view>
+      </view>
+      <view class='tbody'>
+        <view wx:for="{{tournament}}" wx:for-index="index" wx:for-item="item" wx:key="item._id" class='tr'>
+          <view class='td name'>
+            <view class="rank-view">{{item.title}}</view>
+            <view class="rank-view">{{item['start-date']}}</view>
+          </view>
+          <view class='td'>
+            <view>{{item.level}}</view>
+          </view>
+          <view class='td country'>
+            <view>{{item.location}}</view>
+          </view>
+          <view class='td integral'>
+            <view class='integral-view'>{{item.prize || '-'}}</view>
+          </view>
+        </view>
+      </view>
+    </view> 
+  </div>
+</view>

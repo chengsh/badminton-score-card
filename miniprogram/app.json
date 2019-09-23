@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/tournament/index",
     "pages/index/index",
     "pages/score/index",
     "pages/rankings/index",
@@ -16,18 +17,21 @@
     "backgroundColor": "#069345",
     "selectedColor": "#ffffff",
     "borderStyle": "white",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "iconPath": "images/shouye.png",
-      "selectedIconPath": "images/shouye_active.png",
-      "text": "首页"
-    }, {
-      "pagePath": "pages/rankings/index",
-      "iconPath": "images/paiming.png",
-      "selectedIconPath": "images/paiming_active.png",
-      "text": "世界排名"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/shouye.png",
+        "selectedIconPath": "images/shouye_active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/rankings/index",
+        "iconPath": "images/paiming.png",
+        "selectedIconPath": "images/paiming_active.png",
+        "text": "世界排名"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json",
-  "resizable":  true
+  "resizable": true
 }
