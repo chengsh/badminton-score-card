@@ -3,7 +3,7 @@
     {
       "name": "updateMDRankings",
       "type": "timer",
-      "config": "0 12 0 * * FRI *"
+      "config": "0 12 1 * * FRI *"
     }
   ]
 }
