@@ -6,7 +6,8 @@ function getTournament(year){
 	  a.forEach((aitem, i) => {
 	    arr.push({
 	      "title": aitem.querySelector('h2').textContent,
-	      "location": item.querySelectorAll('.venue-country')[i].querySelectorAll('.country_code')[1].textContent.trim().replace(/\n*\s*/g,'') + item.querySelectorAll('.venue-country')[i].querySelectorAll('.country_code')[0].textContent.trim().replace(/\n*\s*/g,''),
+	      "country": item.querySelectorAll('.venue-country')[i].querySelectorAll('.country_code')[1].textContent.trim().replace(/\n*\s*/g,''),
+	      "city": item.querySelectorAll('.venue-country')[i].querySelectorAll('.country_code')[0].textContent.trim().replace(/\n*\s*/g,''),
 	      "year": year,
 	      "start-date": aitem.querySelector('h3').textContent,
 	      "end-date": aitem.querySelector('h3').textContent,

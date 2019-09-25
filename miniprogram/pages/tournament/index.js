@@ -6,6 +6,12 @@ Page({
   data: {
     type: 'remaining',
     tournament: [],
+    // 全部
+    all: [],
+    // 剩余
+    remaining: [],
+    // 已结束
+    completed: [],
     year: new Date().getFullYear(),
     cache: {}
   },
@@ -30,14 +36,18 @@ Page({
 
     return startFormat + '-' + endFormat;
   },
+  switchTournament(e){
+    let type = e ? e.currentTarget.dataset.type : 'remaining';
+
+    this.setData({
+      tournament: this.data[type],
+      type
+    })
+  },
   getTournament(){
+    let now = new Date().getTime();
     let year = this.data.year;
-    let setData = result => {
-      this.setData({
-        tournament: result || [],
-        year
-      })
-    }
+
     if(this.data.cache[year]){
       let result = this.data.cache[year];
 
@@ -51,12 +61,25 @@ Page({
       }
     }).then(res => {
       let result = res.data.length > 0 ? res.data : [];
+      let completed = [];
+      let remaining = [];
+
       result = result.map(item => {
         item.date = this.dateFormat( item['start-date'],item['end-date'] );
+        if(item['end-date'] < now){
+          completed.push(item);
+        }else{
+          remaining.push(item);
+        }
         return item;
       })
       this.data.cache[year] = result;
-      setData(result);
+      this.setData({
+        all: result,
+        tournament: remaining,
+        completed,
+        remaining
+      })
     })
   }
 

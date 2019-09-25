@@ -4,7 +4,7 @@
   position: relative;
   width: 100vw;
   padding: 40rpx 0;
-  overflow: hidden;
+  overflow-x: auto;
   min-height: ~'calc(100vh - 80rpx)';
   box-sizing: border-box;
   background: #069345;
@@ -65,7 +65,6 @@
   .thead,.tbody{
     .tr{
       display: flex;
-      text-align: center;
       min-height: 80rpx;
       line-height: 80rpx;
       &:nth-child(even){
@@ -77,6 +76,7 @@
       color: white;
       white-space: nowrap;
       overflow: hidden;
+      text-align: left;
       padding: 0 12rpx;
       flex: 1;
     }
@@ -86,10 +86,10 @@
     }
   }
   .tbody{
-    .rank,.name,.country,.integral{
+    .rank,.name,.level,.integral,.prize{
       position: relative;
     }
-    .rank,.name,.country{
+    .rank,.name,.level,.prize{
       border-right: 1px solid rgba(255,255,255,0.3);
     }
     .rank-view,.integral-view{
@@ -98,7 +98,7 @@
       top: 50%;
       transform: translate(-50%, -50%);
     }
-    .name{
+    .name,.country{
       height: 120rpx;
       padding: 20rpx;
       .rank-view{
