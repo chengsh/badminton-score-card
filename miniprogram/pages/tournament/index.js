@@ -31,8 +31,8 @@ Page({
   dateFormat(start, end){
     let startDate = new Date(start);
     let endDate = new Date(end);
-    let startFormat = startDate.getMonth() + 1 + '月' + startDate.getDate();
-    let endFormat = endDate.getMonth() + 1 + '月' + endDate.getDate();
+    let startFormat = startDate.getMonth() + 1 + '月' + startDate.getDate() + '日';
+    let endFormat = endDate.getMonth() + 1 + '月' + endDate.getDate() + '日';
 
     return startFormat + '-' + endFormat;
   },

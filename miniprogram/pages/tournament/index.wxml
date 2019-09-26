@@ -17,7 +17,7 @@
         <view wx:for="{{tournament}}" wx:for-index="index" wx:for-item="item" wx:key="item._id" class='tr'>
           <view class='td name'>
             <view class="rank-view">{{item.title}}</view>
-            <view class="rank-view">{{item.date}}</view>
+            <view class="rank-view date">{{item.date}}</view>
           </view>
           <view class='td level'>
             <view class="rank-view">{{item.level}}</view>
