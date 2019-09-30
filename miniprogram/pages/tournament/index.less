@@ -9,27 +9,6 @@
   box-sizing: border-box;
   background: #069345;
 }
-.game-item{
-  position: relative;
-  width: 100vw;
-  height: 100rpx;
-  box-sizing: border-box;
-  line-height: 100rpx;
-  color: white;
-  z-index: 1;
-  .game-item-navigator{
-    width: 100vw;
-    height: 100%;
-    padding: 0 40rpx;
-    box-sizing: border-box;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-    font-size: 28rpx;
-    border-bottom: 2rpx dashed rgba(255,255,255,0.3);
-  }
-}
 .motion-type{
   width: 100vw;
   display: flex;
@@ -136,16 +115,6 @@
   .game-list{
     min-height: ~'calc(100vh - 50rpx)';
   }
-  .game-item{
-    height: 60rpx;
-    line-height: 60rpx;
-    .game-item-navigator{
-      height: 60rpx;
-      line-height: 60rpx;
-      font-size: 18rpx;
-      padding: 0 20rpx;
-    }
-  }
   .motion-type{
     height: 50rpx;
     .motion-type-item{
@@ -161,6 +130,13 @@
       }
       .th,.td{
         font-size: 18rpx;
+      }
+    }
+  }
+  .tournament-year{
+    span{
+      &.active{
+        border-top: 2rpx solid white;
       }
     }
   }

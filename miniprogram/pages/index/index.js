@@ -14,10 +14,19 @@ Page({
 
   onLoad: function(option){
     wx.hideLoading();
-    if(option.game_id && option.game_id.length > 0){
-      wx.navigateTo({
-        url: `/pages/score/index?game_id=${option.game_id}`
-      })
+    if(option.page){
+      switch(option.page){
+        case 'score':
+          wx.navigateTo({
+            url: `/pages/score/index?game_id=${option.game_id}`
+          })
+          break;
+        case 'tournament':
+          wx.navigateTo({
+            url: `/pages/tournament/index`
+          })
+          break;
+      }
     }
   },
 

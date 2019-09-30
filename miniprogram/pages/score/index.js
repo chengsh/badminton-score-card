@@ -92,7 +92,7 @@ Page({
 
     return {
       title: `${game.red.name} VS ${game.blue.name}，${game.red.score} : ${game.blue.score}`,
-      path: `/pages/index/index?game_id=${game_id}`
+      path: `/pages/index/index?page=score&game_id=${game_id}`
     }
   },
 

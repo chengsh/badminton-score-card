@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/tournament/index",
     "pages/index/index",
     "pages/score/index",
+    "pages/tournament/index",
     "pages/rankings/index",
     "pages/history/index"
   ],
