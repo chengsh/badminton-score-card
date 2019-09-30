@@ -1,4 +1,14 @@
 <view class="container">
+  <view class="tournament-year">
+    <span 
+      wx:for="{{years}}" 
+      wx:for-index="index" 
+      wx:for-item="item" 
+      wx:key="item"
+      data-year="{{item}}"
+      class="{{year == item ? 'active' : ''}}"
+      bindtap="switchYear" >{{item}}</span> 
+  </view>
   <view class="motion-type">
     <view class="motion-type-item {{type == 'remaining' ? 'active' : ''}}" data-type="remaining" bindtap="switchTournament">剩余</view>
     <view class="motion-type-item {{type == 'completed' ? 'active' : ''}}" data-type="completed" bindtap="switchTournament">已结束</view>

@@ -13,7 +13,8 @@ Page({
     // 已结束
     completed: [],
     year: new Date().getFullYear(),
-    cache: {}
+    cache: {},
+    years: [2019, 2020]
   },
 
   onLoad: function() {
@@ -37,11 +38,19 @@ Page({
     return startFormat + '-' + endFormat;
   },
   switchTournament(e){
-    let type = e ? e.currentTarget.dataset.type : 'remaining';
+    let type = e.currentTarget.dataset.type;
 
     this.setData({
       tournament: this.data[type],
       type
+    })
+  },
+  switchYear(e){
+    let year = e.currentTarget.dataset.year;
+    this.setData({
+      year
+    }, () => {
+      this.getTournament();
     })
   },
   getTournament(){
@@ -49,9 +58,15 @@ Page({
     let year = this.data.year;
 
     if(this.data.cache[year]){
-      let result = this.data.cache[year];
-
-      setData(result);
+      let cache = this.data.cache[year];
+      let type = this.data.type;
+      
+      this.setData({  
+        all: cache.all,
+        tournament: cache[ type ],
+        completed: cache.completed,
+        remaining: cache.remaining
+      });
       return;
     }
     callFunction({
@@ -64,16 +79,26 @@ Page({
       let completed = [];
       let remaining = [];
 
+      result.sort((a, b) => {
+        let aStart = new Date(`${a.year}-${a['start-date']}`).getTime();
+        let bStart = new Date(`${b.year}-${b['start-date']}`).getTime();
+
+        return aStart < bStart ? -1 : 1;
+      })
       result = result.map(item => {
         item.date = this.dateFormat( item['start-date'],item['end-date'] );
-        if(item['end-date'] < now){
+        if(new Date(`${item.year}-${item['end-date']}`).getTime() < now){
           completed.push(item);
         }else{
           remaining.push(item);
         }
         return item;
       })
-      this.data.cache[year] = result;
+      this.data.cache[year] = {
+        all: result,
+        completed,
+        remaining
+      };
       this.setData({
         all: result,
         tournament: remaining,
