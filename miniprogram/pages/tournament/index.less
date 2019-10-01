@@ -103,7 +103,7 @@
     line-height: 80rpx;
     text-align: center;
     color: white;
-    font-size: 28rpx;
+    font-size: 24rpx;
     &.active{
       border-top: 4rpx solid white;
     }
@@ -131,10 +131,30 @@
       .th,.td{
         font-size: 18rpx;
       }
+      .name,.country{
+        height: 60rpx;
+        .rank-view{
+          line-height: 30rpx;
+          &.date{
+            font-size: 16rpx;
+          }
+        }
+      }
+    }
+    .thead{
+      .name,.country{
+        height: 40rpx;
+      }
+      tr{
+        line-height: 120rpx;
+      }
     }
   }
   .tournament-year{
     span{
+      height: 60rpx;
+      line-height: 60rpx;
+      font-size: 18rpx;
       &.active{
         border-top: 2rpx solid white;
       }

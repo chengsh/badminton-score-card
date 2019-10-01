@@ -29,6 +29,12 @@
         "iconPath": "images/paiming.png",
         "selectedIconPath": "images/paiming_active.png",
         "text": "世界排名"
+      },
+      {
+        "pagePath": "pages/tournament/index",
+        "iconPath": "images/cup.png",
+        "selectedIconPath": "images/cup_active.png",
+        "text": "国际赛事"
       }
     ]
   },

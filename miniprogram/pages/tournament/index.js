@@ -30,12 +30,10 @@ Page({
     }
   },
   dateFormat(start, end){
-    let startDate = new Date(start);
-    let endDate = new Date(end);
-    let startFormat = startDate.getMonth() + 1 + '月' + startDate.getDate() + '日';
-    let endFormat = endDate.getMonth() + 1 + '月' + endDate.getDate() + '日';
+    let startFormat = start.split('-');
+    let endFormat = end.split('-');
 
-    return startFormat + '-' + endFormat;
+    return `${startFormat[0]}月${startFormat[1]}日-${endFormat[0]}月${endFormat[1]}日`;
   },
   switchTournament(e){
     let type = e.currentTarget.dataset.type;
@@ -60,7 +58,7 @@ Page({
     if(this.data.cache[year]){
       let cache = this.data.cache[year];
       let type = this.data.type;
-      
+
       this.setData({  
         all: cache.all,
         tournament: cache[ type ],
@@ -79,15 +77,17 @@ Page({
       let completed = [];
       let remaining = [];
 
+      result = result.map(item => {
+        item.start = new Date(item.year, item['start-date'].split('-')[0] - 1, item['start-date'].split('-')[1]).getTime();
+        item.end = new Date(item.year, item['end-date'].split('-')[0] - 1, item['end-date'].split('-')[1]).getTime();
+        return item;
+      })
       result.sort((a, b) => {
-        let aStart = new Date(`${a.year}-${a['start-date']}`).getTime();
-        let bStart = new Date(`${b.year}-${b['start-date']}`).getTime();
-
-        return aStart < bStart ? -1 : 1;
+        return a.start < b.start ? -1 : 1;
       })
       result = result.map(item => {
         item.date = this.dateFormat( item['start-date'],item['end-date'] );
-        if(new Date(`${item.year}-${item['end-date']}`).getTime() < now){
+        if(item.end < now){
           completed.push(item);
         }else{
           remaining.push(item);
