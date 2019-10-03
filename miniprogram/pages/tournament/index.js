@@ -26,7 +26,8 @@ Page({
   },
   onShareAppMessage(){
     return {
-      title: `${this.data.year}年国际羽毛球赛事`
+      title: `${this.data.year}年国际羽毛球赛事`,
+      imageUrl: '../../images/international-game.jpg'
     }
   },
   dateFormat(start, end){

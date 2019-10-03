@@ -21,7 +21,8 @@ Page({
   },
   onShareAppMessage(){
     return {
-      title: `${this.data.year}年第${this.data.week}周羽联世界排名`
+      title: `${this.data.year}年第${this.data.week}周羽联世界排名`,
+      imageUrl: '../../images/work-ranking.jpg'
     }
   },
   getRankings(e){
