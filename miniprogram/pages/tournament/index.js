@@ -59,7 +59,7 @@ Page({
       let cache = this.data.cache[year];
       let type = this.data.type;
 
-      this.setData({  
+      this.setData({
         all: cache.all,
         tournament: cache[ type ],
         completed: cache.completed,
@@ -73,6 +73,7 @@ Page({
         year
       }
     }).then(res => {
+      let type = this.data.type;
       let result = res.data.length > 0 ? res.data : [];
       let completed = [];
       let remaining = [];
@@ -101,7 +102,7 @@ Page({
       };
       this.setData({
         all: result,
-        tournament: remaining,
+        tournament: this.data.cache[year][type],
         completed,
         remaining
       })
