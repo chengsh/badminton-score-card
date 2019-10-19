@@ -6,6 +6,10 @@
       <image class="bg-img white-line" src="/images/ball-park.png" mode="widthFix" ></image>
     </view>
     <view class="create-area">
+      <view class="motion-type">
+        <view class="motion-type-item {{game_type == '1' ? 'active' : ''}}" data-type="1" bindtap="switchType">普通模式</view>
+        <view class="motion-type-item {{game_type == '2' ? 'active' : ''}}" data-type="2" bindtap="switchType">专业模式</view>
+      </view>
       <view class="section">
         <input 
           type="text" 

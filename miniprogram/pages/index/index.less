@@ -62,6 +62,23 @@
   font-size: 28rpx;
   height: 72rpx;
 }
+.motion-type{
+  display: flex;
+  height: 60rpx;
+  .motion-type-item{
+    flex: 1;
+    flex-direction: row;
+    font-size: 28rpx;
+    height: 100%;
+    line-height: 70rpx;
+    text-align: center;
+    color: white;
+    border-top: 2px solid transparent;
+    &.active{
+      border-top-color: white;
+    }
+  }
+}
 
 // iPad
 @media (min-width: 768px) {

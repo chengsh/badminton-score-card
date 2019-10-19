@@ -9,7 +9,9 @@ Page({
     loading: false,
     game_title: '',
     red_name: '',
-    blue_name: ''
+    blue_name: '',
+    // 1普通模式，2专业模式
+    game_type: 2
   },
 
   onLoad: function(option){
@@ -55,7 +57,8 @@ Page({
         game: {
           game_title: game_title.trim() || '羽毛球大赛',
           red_name: red_name.trim() || '红队',
-          blue_name: blue_name.trim() || '蓝队'
+          blue_name: blue_name.trim() || '蓝队',
+          game_type: game_type || 1
         }
       }
     }).then(res => {
@@ -78,6 +81,12 @@ Page({
   navigateToHistory() {
     wx.navigateTo({
       url: '/pages/history/index'
+    })
+  },
+
+  switchType(e) {
+    this.setData({
+      game_type: e.currentTarget.dataset.type || 1
     })
   }
 })
