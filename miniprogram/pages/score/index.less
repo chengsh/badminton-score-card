@@ -23,14 +23,6 @@
     background: linear-gradient(#069345, #1d9632);
   }
 }
-.game-title{
-  text-align: center;
-  font-size: 18rpx;
-  margin: 18rpx;
-  height: 18rpx;
-  line-height: 18rpx;
-  z-index: 1;
-}
 .game-scoring{
   position: relative;
   display: flex;
@@ -68,8 +60,16 @@
       width: 60rpx;
       height: 40rpx;
       position: absolute;
-      top: 0;
+      bottom: 20rpx;
       right: 0;
+      opacity: 0.1;
+      &.left{
+        left: 0;
+        right: none;
+      }
+      &.active{
+        opacity: 1;
+      }
     }
     .number{
       position: absolute;
@@ -125,7 +125,96 @@
     margin-right: 20rpx;
   }
 }
-
+.game-tool{
+  width: 80rpx;
+  height: 100vh;
+  position: absolute;
+  z-index: 9;
+  right: -120rpx;
+  top: 0;
+  padding: 0rpx 20rpx;
+  background: #0C943D;
+  box-shadow: -10rpx 0 10rpx rgba(0,0,0,0.1);
+  &.active{
+    right: 0;
+  }
+  .left,.undo,.reset,.async,.finish{
+    width: 30rpx;
+    height: 30rpx;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    text-align: center;
+    line-height: 30rpx;
+    vertical-align: top;
+    margin-right: 10rpx;
+    >image{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .finish,.reset{
+    padding: 2% 3%;
+    >image{
+      width: 94%;
+      height: 94%;
+    }
+  }
+  @keyframes loading{
+    0%{
+      transform: rotate(0deg);
+    }
+    100%{
+      transform: rotate(180deg);
+    }
+  }
+  .async{
+    float: right;
+    .loading{
+      animation: loading .3s linear infinite;
+    }
+  }
+  .game-tool-item{
+    display: block;
+    height: 24rpx;
+    margin: 14rpx 0 40rpx 0;
+    >span{
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .game-tool-desc{
+      font-size: 18rpx;
+    }
+    &.disabled{
+      opacity: 0.3;
+    }
+  }
+  .open-game-tool{
+    width: 40rpx;
+    height: 40rpx;
+    position: absolute;
+    left: -40rpx;
+    top: 0;
+    margin: 0;
+    .left{
+      background: transparent;
+      margin-top: 10rpx;
+    }
+  }
+}
+.score-count{
+  width: 100rpx;
+  height: 40rpx;
+  position: absolute;
+  left: 50%;
+  top: 50rpx;
+  text-align: center;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  transform: translate(-50rpx, 0);
+  border-bottom: 2rpx solid white;
+}
 // iPad
 @media (min-width: 768px) {
   .game-scoring{

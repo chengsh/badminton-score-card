@@ -45,7 +45,7 @@ Page({
   },
 
   createGame: async function(){
-    const { game_title, red_name, blue_name } = this.data;
+    const { game_title, red_name, blue_name, game_type } = this.data;
 
     this.setData({
       loading: true

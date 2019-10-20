@@ -42,7 +42,11 @@ exports.main = async (event) => {
       blue: {
         name: event.game.blue_name,
         score: 0
-      }
+      },
+      type: event.game.game_type,
+      round1: {},
+      round2: {},
+      round3: {}
     }
   })
 }

@@ -23,6 +23,8 @@ Page({
     historyIndex: 0,
     // 发球方
     server: '',
+    // 激活工具栏
+    toolActive: false,
     game: {
       game_title: '',
       red: {
@@ -39,10 +41,13 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id
+      game_id: option.game_id || '0bb54c1c5dabb206004cda446246f5fa'
     },() => {
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
+        wx.setNavigationBarTitle({
+          title: this.data.game.game_title
+        })
       });
     })
   },
@@ -130,8 +135,8 @@ Page({
       let _this = this;
 
       wx.showModal({
-        title: '重置比分',
-        content: '确定重置比分为0:0？',
+        title: '重置本局比分',
+        content: '确定重置本局比分为0:0？',
         success (res) {
           if (res.confirm) {
             setHistory();
@@ -222,6 +227,7 @@ Page({
       return res;
     })
   },
+  // 撤销
   undo() {
     const { historyIndex, history } = this.data;
 
@@ -237,6 +243,13 @@ Page({
       })
       this.updateGameScore();
     }
+  },
+
+  // 激活工具栏
+  openTool() {
+    this.setData({
+      toolActive: !this.data.toolActive
+    })
   }
 
 })

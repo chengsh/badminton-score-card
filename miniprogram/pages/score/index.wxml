@@ -1,29 +1,57 @@
 <div class="game-score">
-  <div class="game-btns" wx:if="{{game.owner}}">
-    <span class="{{history[historyIndex] ? 'undo' : 'undo disabled'}}" bindtap="undo">
-      <image src="/images/undo.svg"></image>
-    </span>
-    <span class="reset" data-identifier="reset" bindtap="computed"><image src="/images/clear.svg"></image></span>
+  <!-- 比赛比分 -->
+  <div class="score-count">
+    1 : 1
   </div>
+  <!-- 工具栏 -->
+  <div class="{{toolActive ? 'game-tool active' : 'game-tool'}}" wx:if="{{game.owner}}">
+    <div class="game-tool-item open-game-tool" bindtap="openTool">
+      <span class="left">
+        <image wx:if="{{!toolActive}}" src="/images/left.svg"></image>
+        <image wx:elif="{{toolActive}}" src="/images/right.svg"></image>
+      </span>
+    </div>
+    <div class="{{history[historyIndex] ? 'game-tool-item' : 'game-tool-item disabled'}}" bindtap="undo">
+      <span class="undo">
+        <image src="/images/undo.svg"></image>
+      </span>
+      <span class="game-tool-desc">撤销</span>
+    </div>
+    <div class="game-tool-item" data-identifier="reset" bindtap="computed">
+      <span class="reset">
+        <image src="/images/clear.svg"></image>
+      </span>
+      <span class="game-tool-desc">重置</span>
+    </div>
+    <div class="game-tool-item" bindtap="finish">
+      <span class="finish">
+        <image src="/images/finish.svg"></image>
+      </span>
+      <span class="game-tool-desc">结束</span>
+    </div>
+  </div>
+  <!-- 轮询loading -->
   <div class="game-btns" wx:elif="{{!game.owner}}">
     <span class="{{asyncDisable ? 'async disabled' : 'async'}}" bindtap="asyncDataHandle">
       <image class="{{asyncData ? 'loading' : ''}}" src="/images/async.svg"></image>
     </span>
   </div>
-  <h3 class="game-title">{{game.game_title}}</h3>
+  <!-- 每局比分区域 -->
   <div class="game-scoring">
     <div class="red">
       <h3 class="team-name">{{game.red.name}}</h3>
       <div class="team-scoring" data-identifier="add" data-team="red" bindtap="computed">
         <span class="number">{{game.red.score}}</span>
-        <image class="server" wx:if="{{server==='red'}}" src="/images/badminton.svg"></image>
+        <image class="server left" src="/images/badminton.svg"></image>
+        <image class="server active" src="/images/badminton.svg"></image>
       </div>
     </div>
     <div class="blue">
       <h3 class="team-name">{{game.blue.name}}</h3>
       <div class="team-scoring" data-identifier="add" data-team="blue" bindtap="computed">
         <span class="number">{{game.blue.score}}</span>
-        <image class="server" wx:if="{{server==='blue'}}" src="/images/badminton.svg"></image>
+        <image class="server left" src="/images/badminton.svg"></image>
+        <image class="server" src="/images/badminton.svg"></image>
       </div>
     </div>
   </div>
