@@ -25,8 +25,26 @@ Page({
     server: '',
     // 激活工具栏
     toolActive: false,
+    // 激活三局比分面板
+    allScoreActive: false,
     game: {
       game_title: '',
+      // A/B/C三局
+      current_round: 'A',
+      round: {
+        'A': {
+          red: 0,
+          blue: 0
+        },
+        'B': {
+          red: 0,
+          blue: 0
+        },
+        'C': {
+          red: 0,
+          blue: 0
+        }
+      },
       red: {
         name: '',
         score: ''
@@ -41,7 +59,7 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id || '0bb54c1c5dabb206004cda446246f5fa'
+      game_id: option.game_id || '01ace4015decb86a016300d264827f90'
     },() => {
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
@@ -101,6 +119,11 @@ Page({
       imageUrl: '../../images/score-online.jpg'
     }
   },
+  openAllScore(){
+    this.setData({
+      allScoreActive: !this.data.allScoreActive
+    })
+  },
 
   computed (e) {
     const {dataset} = e.currentTarget;
@@ -121,6 +144,7 @@ Page({
         })
       }
     }
+
     if (!game.owner || dataset.identifier === 'add' && this.ifGameOver()) return;
      
     if (dataset.identifier === 'add') {
@@ -152,6 +176,12 @@ Page({
       })
     }
   },
+  clearHistory() {
+    this.setData({
+      historyIndex: 0,
+      history: []
+    })
+  },
   updateGameScore() {
     callFunction({
       name: 'update',
@@ -160,14 +190,29 @@ Page({
       }
     })
   },
+  // 判断当前比分是否二比一
+  is2_0 () {
+    const {game} = this.data;
+    const redScore = game.red.score
+    const blueScore = game.blue.score
+    const roundA = game.round['A'];
+
+    if(roundA.red > roundA.blue && redScore > blueScore || roundA.red < roundA.blue && redScore < blueScore){
+      return true;
+    }
+    return false;
+  },
   /**
    * 判断比赛是否结束
    * @return {Boolean} true:结束, false: 未结束
    */
   ifGameOver () {
-    const redScore = this.data.game.red.score
-    const blueScore = this.data.game.blue.score
+    const {game} = this.data;
+    const redScore = game.red.score
+    const blueScore = game.blue.score
     const { total, maxScore } = this.data
+    const { current_round } = game
+    let _this = this;
     /**
      * 三种情况，比赛结束
      * 1、有一方得分=30分
@@ -177,11 +222,41 @@ Page({
     if (redScore === maxScore || blueScore === maxScore ||
       (redScore === total && blueScore <= 19) || (blueScore === total && redScore <= 19) ||
       (redScore >= 20 && blueScore >= 20 && Math.abs(redScore - blueScore) >= 2)) {
-      wx.showToast({
-        title: '比赛结束',
-        icon: 'none',
-        duration: 2000
-      })
+      // 打到第三局或者前两局2：0，没必要进行第三局
+      if(current_round === 'C' || this.is2_0()){
+        wx.showToast({
+          title: '比赛结束',
+          icon: 'none',
+          duration: 2000
+        })
+      }else{
+        let title = {
+          'A': '一',
+          'B': '二'
+        }
+
+        wx.showModal({
+          title: `第${title[current_round]}局比赛结束`,
+          content: `是否开始下一局比赛？`,
+          success (res) {
+            if (res.confirm) {
+              _this.clearHistory();
+              game.round[ current_round ] = {
+                blue: blueScore,
+                red: redScore
+              }
+              game['red'].score = 0
+              game['blue'].score = 0  
+              game['current_round'] = current_round == 'A' ? 'B' : 'C'
+              _this.setData({
+                game,
+                server: ''
+              })
+              _this.updateGameScore();  
+            }
+          }
+        })
+      }
       return true
     }
     return false

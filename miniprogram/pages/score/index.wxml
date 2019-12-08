@@ -1,7 +1,13 @@
 <div class="game-score">
   <!-- 比赛比分 -->
-  <div class="score-count">
-    1 : 1
+  <div class="score-count" bindtap="openAllScore">
+    <div>1 : 1</div>
+    <div class="round-info" wx:if="{{allScoreActive}}">
+      <div class="round-title">三局比分</div>
+      <div class="round-score">12：21</div>
+      <div class="round-score">21：18</div>
+      <div class="round-score">19：21</div>
+    </div>
   </div>
   <!-- 工具栏 -->
   <div class="{{toolActive ? 'game-tool active' : 'game-tool'}}" wx:if="{{game.owner}}">

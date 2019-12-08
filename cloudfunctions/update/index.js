@@ -6,8 +6,8 @@ const paramError = (errMsg = '参数错误') => {
 }
 
 cloud.init({
-  // env: 'test-7w5bo'
-  env: 'game-pcm9t'
+  env: 'test-7w5bo'
+  // env: 'game-pcm9t'
 });
 // 云函数入口函数
 exports.main = async (event) => {
@@ -23,7 +23,9 @@ exports.main = async (event) => {
   return await db.collection(collectionName).doc(event.game._id).update({
     data: {
       red: event.game.red,
-      blue: event.game.blue
+      blue: event.game.blue,
+      current_round: event.game.current_round,
+      round: event.game.round
     }
   });
 }

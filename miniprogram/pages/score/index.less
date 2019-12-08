@@ -205,15 +205,38 @@
 }
 .score-count{
   width: 100rpx;
-  height: 40rpx;
+  height: 54rpx;
   position: absolute;
+  z-index: 9;
   left: 50%;
   top: 50rpx;
+  box-sizing: border-box;
+  padding: 10rpx;
   text-align: center;
-  font-size: 28rpx;
+  font-size: 38rpx;
   line-height: 40rpx;
   transform: translate(-50rpx, 0);
   border-bottom: 2rpx solid white;
+
+  .round-info{
+    position: absolute;
+    z-index: 8;
+    top: 52rpx;
+    left: -50rpx;
+    width: 200%;
+    padding: 20rpx 0;
+    text-align: center;
+    background: rgba(0,0,0,0.6);
+    border-radius: 8rpx;
+    .round-title{
+      margin-bottom: 10rpx;
+    }
+    .round-title,.round-score{
+      font-size: 22rpx;
+      line-height: 40rpx;
+      display: block;
+    }
+  }
 }
 // iPad
 @media (min-width: 768px) {
