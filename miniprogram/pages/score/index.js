@@ -398,14 +398,23 @@ Page({
 
   // 手动结束比赛
   finishGame(){
-    this.setData({
-      game: {
-        ...this.data.game,
-        finish: 1
+    const _this = this;
+    const {game} = this.data;
+
+    wx.showModal({
+      title: '立即结束比赛',
+      content: '确定要结束本场比赛？',
+      success (res) {
+        if (res.confirm) {
+          _this.clearHistory();
+          game['finish'] = 1;
+          _this.setData({
+            game
+          })
+          _this.updateGameScore();  
+        }
       }
     })
-
-    this.updateGameScore();
   }
 
 })

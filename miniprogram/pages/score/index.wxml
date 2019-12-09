@@ -31,7 +31,7 @@
       </span>
       <span class="game-tool-desc">重置</span>
     </div>
-    <div class="game-tool-item" bindtap="finishGame">
+    <div class="{{game.finish ? 'game-tool-item disabled' : 'game-tool-item'}}" bindtap="finishGame">
       <span class="finish">
         <image src="/images/finish.svg"></image>
       </span>
