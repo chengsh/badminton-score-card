@@ -34,6 +34,7 @@ Page({
       current_round: 'A',
       // 发球方
       server: '',
+      finish: 0,
       round: {
         'A': {
           red: 0,
@@ -76,24 +77,43 @@ Page({
 
   // 计算大比分
   computedWin(game){
+    let current_round = game.current_round;
     let redWin = 0;
     let blueWin = 0;
     let winCount = key => {
-      if(game.round[key].blue > game.round[key].red){
+      let redScore = game.red.score;
+      let blueScore = game.blue.score;
+
+      if(key){
+        redScore = game.round[key].red;
+        blueScore = game.round[key].blue;
+      }
+      if(blueScore > redScore){
         blueWin += 1;
       }else{
         redWin += 1;
       }
     }
-    if(game.current_round == 'A')return;
-    if(game.current_round == 'B'){
-      winCount('A');
-    }else if(game.current_round == 'C'){
-      winCount('B');
-      if(game.finish){
-        winCount('C');
+    let commonCode = () => {
+      if(game.finish || this.ifRoundOver(game.red.score, game.blue.score)){
+        winCount();
       }
     }
+    switch(current_round){
+      case 'A':
+        commonCode();
+        break;
+      case 'B':
+        winCount('A');
+        commonCode();
+        break;
+      case 'C':
+        winCount('A');
+        winCount('B');
+        commonCode();
+        break;
+    }
+
     this.setData({
       redWin,
       blueWin
@@ -240,17 +260,9 @@ Page({
     }
     return false;
   },
-  /**
-   * 判断比赛是否结束
-   * @return {Boolean} true:结束, false: 未结束
-   */
-  ifGameOver () {
-    const {game} = this.data;
-    const redScore = game.red.score
-    const blueScore = game.blue.score
+  // 判断某一局是否结束
+  ifRoundOver(redScore, blueScore){
     const { total, maxScore } = this.data
-    const { current_round } = game
-    let _this = this;
     /**
      * 三种情况，比赛结束
      * 1、有一方得分=30分
@@ -260,6 +272,23 @@ Page({
     if (redScore === maxScore || blueScore === maxScore ||
       (redScore === total && blueScore <= 19) || (blueScore === total && redScore <= 19) ||
       (redScore >= 20 && blueScore >= 20 && Math.abs(redScore - blueScore) >= 2)) {
+      return true;
+    }else{
+      return false;
+    }
+  },
+  /**
+   * 判断比赛是否结束
+   * @return {Boolean} true:结束, false: 未结束
+   */
+  ifGameOver () {
+    const {game} = this.data;
+    const redScore = game.red.score
+    const blueScore = game.blue.score
+    const { current_round } = game
+    let _this = this;
+    
+    if (this.ifRoundOver(redScore, blueScore)) {
       // 打到第三局或者前两局2：0，没必要进行第三局
       if(current_round === 'C' || this.is2_0()){
         wx.showToast({
@@ -365,6 +394,18 @@ Page({
     this.setData({
       toolActive: !this.data.toolActive
     })
+  },
+
+  // 手动结束比赛
+  finishGame(){
+    this.setData({
+      game: {
+        ...this.data.game,
+        finish: 1
+      }
+    })
+
+    this.updateGameScore();
   }
 
 })

@@ -2,11 +2,13 @@
   <!-- 比赛比分 -->
   <div class="score-count" bindtap="openAllScore">
     <div>{{redWin}} : {{blueWin}}</div>
-    <div class="round-info" wx:if="{{allScoreActive}}">
+    <div class="round-info" wx:if="{{allScoreActive || game.finish}}">
       <div class="round-title">三局比分</div>
-      <div class="round-score">12：21</div>
-      <div class="round-score">21：18</div>
-      <div class="round-score">19：21</div>
+      <div class="round-score" wx:if="{{game.current_round != 'A'}}">{{game.round['A'].red}} : {{game.round['A'].blue}}</div>
+      <div class="round-score" wx:if="{{game.current_round == 'C'}}">{{game.round['B'].red}} : {{game.round['B'].blue}}</div>
+      <div class="round-score">{{game.red.score}} : {{game.blue.score}}</div>
+      <div class="round-score" wx:if="{{game.current_round == 'A'}}">0 : 0</div>
+      <div class="round-score" wx:if="{{game.current_round == 'A' || game.current_round == 'B'}}">0 : 0</div>
     </div>
   </div>
   <!-- 工具栏 -->
@@ -29,7 +31,7 @@
       </span>
       <span class="game-tool-desc">重置</span>
     </div>
-    <div class="game-tool-item" bindtap="finish">
+    <div class="game-tool-item" bindtap="finishGame">
       <span class="finish">
         <image src="/images/finish.svg"></image>
       </span>
