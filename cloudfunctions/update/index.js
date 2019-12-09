@@ -25,7 +25,9 @@ exports.main = async (event) => {
       red: event.game.red,
       blue: event.game.blue,
       current_round: event.game.current_round,
-      round: event.game.round
+      round: event.game.round,
+      server: event.game.server,
+      finish: event.game.finish
     }
   });
 }

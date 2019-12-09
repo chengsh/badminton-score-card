@@ -21,16 +21,19 @@ Page({
     // 记录历史分数，便于撤销
     history: [],
     historyIndex: 0,
-    // 发球方
-    server: '',
     // 激活工具栏
     toolActive: false,
     // 激活三局比分面板
     allScoreActive: false,
+    // 红蓝队大比分
+    redWin: 0,
+    blueWin: 0,
     game: {
       game_title: '',
       // A/B/C三局
       current_round: 'A',
+      // 发球方
+      server: '',
       round: {
         'A': {
           red: 0,
@@ -59,14 +62,41 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id || '01ace4015decb86a016300d264827f90'
+      game_id: option.game_id || '01ace4015dee4f9901bfbf5f005b0623'
     },() => {
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
         wx.setNavigationBarTitle({
           title: this.data.game.game_title
         })
+        this.computedWin(this.data.game);
       });
+    })
+  },
+
+  // 计算大比分
+  computedWin(game){
+    let redWin = 0;
+    let blueWin = 0;
+    let winCount = key => {
+      if(game.round[key].blue > game.round[key].red){
+        blueWin += 1;
+      }else{
+        redWin += 1;
+      }
+    }
+    if(game.current_round == 'A')return;
+    if(game.current_round == 'B'){
+      winCount('A');
+    }else if(game.current_round == 'C'){
+      winCount('B');
+      if(game.finish){
+        winCount('C');
+      }
+    }
+    this.setData({
+      redWin,
+      blueWin
     })
   },
 
@@ -127,14 +157,14 @@ Page({
 
   computed (e) {
     const {dataset} = e.currentTarget;
-    const {game, history, server} = this.data;
+    const {game, history} = this.data;
     let setHistory = () => {
       this.setData({
         historyIndex: 0,
         history: [{
           redScore: game.red.score,
           blueScore: game.blue.score,
-          server
+          server: game.server
         }, ...history]
       })
       // 最多记录50条历史记录
@@ -145,16 +175,23 @@ Page({
       }
     }
 
+    if(this.data.toolActive){
+      this.setData({
+        toolActive: false
+      })
+    }
+
     if (!game.owner || dataset.identifier === 'add' && this.ifGameOver()) return;
      
     if (dataset.identifier === 'add') {
       setHistory();
       game[dataset.team].score += 1
+      game['server'] = `${dataset.team}-${game[dataset.team].score % 2 == 0 ? 'r' : 'l'}`
       this.setData({
-        game,
-        server: dataset.team
+        game
       })
       this.updateGameScore();
+      this.computedWin(game);
     }else if(dataset.identifier === 'reset'){
       let _this = this;
 
@@ -166,10 +203,11 @@ Page({
             setHistory();
             game['red'].score = 0
             game['blue'].score = 0    
+            game['server'] = ''
             _this.setData({
-              game,
-              server: ''
+              game
             })
+            _this.computedWin(game);
             _this.updateGameScore();  
           }
         }
@@ -247,12 +285,13 @@ Page({
               }
               game['red'].score = 0
               game['blue'].score = 0  
+              game['server'] = ''
               game['current_round'] = current_round == 'A' ? 'B' : 'C'
               _this.setData({
-                game,
-                server: ''
+                game
               })
               _this.updateGameScore();  
+              _this.computedWin(game);
             }
           }
         })
@@ -311,12 +350,13 @@ Page({
 
       this.data.game.red.score = redScore;
       this.data.game.blue.score = blueScore;
+      this.data.game.server = server;
       this.setData({
         game: this.data.game,
-        historyIndex: historyIndex + 1,
-        server
+        historyIndex: historyIndex + 1
       })
       this.updateGameScore();
+      this.computedWin(this.data.game);
     }
   },
 

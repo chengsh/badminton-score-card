@@ -45,6 +45,8 @@ exports.main = async (event) => {
       },
       type: event.game.game_type,
       current_round: 'A',
+      server: '',
+      finish: 0,
       round: {
         'A': {
           red: 0,
