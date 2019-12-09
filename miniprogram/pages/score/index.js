@@ -200,6 +200,11 @@ Page({
         toolActive: false
       })
     }
+    if(this.data.allScoreActive){
+      this.setData({
+        allScoreActive: false
+      })
+    }
 
     if (!game.owner || dataset.identifier === 'add' && this.ifGameOver()) return;
      
