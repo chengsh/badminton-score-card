@@ -43,7 +43,6 @@ exports.main = async (event) => {
         name: event.game.blue_name,
         score: 0
       },
-      type: event.game.game_type,
       current_round: 'A',
       server: '',
       finish: 0,

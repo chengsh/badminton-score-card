@@ -2,7 +2,10 @@
   <!-- 比赛比分 -->
   <div class="score-count" bindtap="openAllScore">
     <div>{{redWin}} : {{blueWin}}</div>
-    <div class="round-info" wx:if="{{allScoreActive || game.finish}}">
+  </div>
+  <!-- 三局比分面板 -->
+  <div class="round-warp" bindtap="openAllScore" wx:if="{{allScoreActive}}">
+    <div class="round-info" >
       <div class="round-title">三局比分</div>
       <div class="round-score" wx:if="{{game.current_round != 'A'}}">{{game.round['A'].red}} : {{game.round['A'].blue}}</div>
       <div class="round-score" wx:if="{{game.current_round == 'C'}}">{{game.round['B'].red}} : {{game.round['B'].blue}}</div>
@@ -19,13 +22,13 @@
         <image wx:elif="{{toolActive}}" src="/images/right.svg"></image>
       </span>
     </div>
-    <div class="{{history[historyIndex] ? 'game-tool-item' : 'game-tool-item disabled'}}" bindtap="undo">
+    <div class="{{history[historyIndex] && game.finish == 0 ? 'game-tool-item' : 'game-tool-item disabled'}}" bindtap="undo">
       <span class="undo">
         <image src="/images/undo.svg"></image>
       </span>
       <span class="game-tool-desc">撤销</span>
     </div>
-    <div class="game-tool-item" data-identifier="reset" bindtap="computed">
+    <div class="{{game.finish ? 'game-tool-item disabled' : 'game-tool-item'}}" data-identifier="reset" bindtap="computed">
       <span class="reset">
         <image src="/images/clear.svg"></image>
       </span>

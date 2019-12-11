@@ -20,6 +20,9 @@ exports.main = async (event) => {
   if(OPENID !== event.game.create_user_id){
     return paramError('无权限');  
   }
+  if(event.game.finish){
+    return paramError('比赛结束');
+  }
   return await db.collection(collectionName).doc(event.game._id).update({
     data: {
       red: event.game.red,

@@ -63,13 +63,16 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id || '01ace4015dee4f9901bfbf5f005b0623'
+      game_id: option.game_id || 'dbff9fc75decb2dd01622ef540cd958d'
     },() => {
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
         wx.setNavigationBarTitle({
           title: this.data.game.game_title
         })
+        if(this.data.game.finish){
+          this.openAllScore();
+        }
         this.computedWin(this.data.game);
       });
     })
@@ -178,7 +181,7 @@ Page({
   computed (e) {
     const {dataset} = e.currentTarget;
     const {game, history} = this.data;
-    let setHistory = () => {
+    const setHistory = () => {
       this.setData({
         historyIndex: 0,
         history: [{
@@ -205,9 +208,7 @@ Page({
         allScoreActive: false
       })
     }
-
     if (!game.owner || dataset.identifier === 'add' && this.ifGameOver()) return;
-     
     if (dataset.identifier === 'add') {
       setHistory();
       game[dataset.team].score += 1
@@ -260,6 +261,7 @@ Page({
     const blueScore = game.blue.score
     const roundA = game.round['A'];
 
+    if(game.current_round != 'B') return false;
     if(roundA.red > roundA.blue && redScore > blueScore || roundA.red < roundA.blue && redScore < blueScore){
       return true;
     }
@@ -291,16 +293,26 @@ Page({
     const redScore = game.red.score
     const blueScore = game.blue.score
     const { current_round } = game
-    let _this = this;
-    
+    const _this = this;
+    const showToast = () => {
+      wx.showToast({
+        title: '比赛结束',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+
+    if(game.finish){
+      this.setData({
+        allScoreActive: true
+      })
+      showToast();
+      return true;
+    }
     if (this.ifRoundOver(redScore, blueScore)) {
       // 打到第三局或者前两局2：0，没必要进行第三局
       if(current_round === 'C' || this.is2_0()){
-        wx.showToast({
-          title: '比赛结束',
-          icon: 'none',
-          duration: 2000
-        })
+        showToast();
       }else{
         let title = {
           'A': '一',
@@ -318,8 +330,8 @@ Page({
                 red: redScore
               }
               game['red'].score = 0
-              game['blue'].score = 0  
-              game['server'] = ''
+              game['blue'].score = 0
+              game['server'] = redScore > blueScore ? 'red-r' : 'blue-r'
               game['current_round'] = current_round == 'A' ? 'B' : 'C'
               _this.setData({
                 game
