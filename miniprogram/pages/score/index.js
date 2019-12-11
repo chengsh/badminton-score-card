@@ -63,7 +63,7 @@ Page({
   onLoad: function(option) {
     wx.hideLoading();
     this.setData({
-      game_id: option.game_id || 'dbff9fc75decb2dd01622ef540cd958d'
+      game_id: option.game_id
     },() => {
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
