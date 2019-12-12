@@ -45,6 +45,22 @@ Page({
   createGame: async function(){
     const { game_title, red_name, blue_name } = this.data;
 
+    if( game_title.trim().length == 0 ){
+      wx.showToast({
+        title: '请输入比赛名称',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
+    if( red_name.trim().length == 0 || blue_name.trim().length == 0 ){
+      wx.showToast({
+        title: '请输入队伍名称',
+        icon: 'none',
+        duration: 2000
+      })
+      return false;
+    }
     this.setData({
       loading: true
     })
@@ -53,9 +69,9 @@ Page({
       name: 'create',
       data: {
         game: {
-          game_title: game_title.trim() || '羽毛球大赛',
-          red_name: red_name.trim() || '红队',
-          blue_name: blue_name.trim() || '蓝队'
+          game_title: game_title.trim(),
+          red_name: red_name.trim(),
+          blue_name: blue_name.trim()
         }
       }
     }).then(res => {

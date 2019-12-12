@@ -37,7 +37,7 @@
           data-field="blue_name" />
       </view>
       
-      <button class="handle-btn" type="primary" bindtap="createGame" loading="{{loading}}" disabled="{{loading}}">开始比赛</button>
+      <button class="handle-btn" type="primary" bindtap="createGame" loading="{{loading}}" disabled="{{loading || !game_title || !red_name || !blue_name}}">开始比赛</button>
       <button class="handle-btn" bindtap="navigateToHistory">历史比赛</button> 
     </view>   
   </div>
