@@ -23,6 +23,7 @@ exports.main = async (event) => {
   if(event.game.finish){
     return paramError('比赛结束');
   }
+  
   return await db.collection(collectionName).doc(event.game._id).update({
     data: {
       red: event.game.red,
@@ -34,4 +35,3 @@ exports.main = async (event) => {
     }
   });
 }
-
