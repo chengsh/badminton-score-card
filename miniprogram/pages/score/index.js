@@ -246,11 +246,12 @@ Page({
       history: []
     })
   },
-  updateGameScore() {
+  updateGameScore(params) {
     callFunction({
       name: 'update',
       data: {
-        game: this.data.game
+        game: this.data.game,
+        ...params
       }
     })
   },
@@ -304,9 +305,6 @@ Page({
     }
 
     if(game.finish){
-      this.setData({
-        allScoreActive: true
-      })
       showToast();
       return true;
     }
@@ -429,7 +427,9 @@ Page({
           _this.setData({
             game
           })
-          _this.updateGameScore();  
+          _this.updateGameScore({
+            finish: 1
+          });  
         }
       }
     })
