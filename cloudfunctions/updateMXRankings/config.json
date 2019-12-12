@@ -3,7 +3,7 @@
     {
       "name": "updateMXRankings",
       "type": "timer",
-      "config": "0 14 0 * * 1 *"
+      "config": "0 15 0 * * * *"
     }
   ]
 }

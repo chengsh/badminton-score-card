@@ -6,8 +6,8 @@ const paramError = (errMsg = '参数错误') => {
 }
 
 cloud.init({
-  env: 'test-7w5bo'
-  // env: 'game-pcm9t'
+  // env: 'test-7w5bo'
+  env: 'game-pcm9t'
 });
 // 云函数入口函数
 exports.main = async (event) => {

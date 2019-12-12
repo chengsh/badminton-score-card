@@ -295,6 +295,7 @@ Page({
     const { current_round } = game
     const _this = this;
     const showToast = () => {
+      this.openAllScore();
       wx.showToast({
         title: '比赛结束',
         icon: 'none',
