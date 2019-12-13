@@ -19,7 +19,7 @@
       <view class="section">
         <input 
           type="text" 
-          class="game-attr" 
+          class="game-attr game-attr-required" 
           value="{{red_name}}" 
           bindinput="setGame" 
           maxlength="30" 
@@ -29,7 +29,7 @@
       <view class="section">
         <input 
           type="text" 
-          class="game-attr" 
+          class="game-attr game-attr-required" 
           value="{{blue_name}}" 
           bindinput="setGame" 
           maxlength="30" 
@@ -37,7 +37,7 @@
           data-field="blue_name" />
       </view>
       
-      <button class="handle-btn" type="primary" bindtap="createGame" loading="{{loading}}" disabled="{{loading || !game_title || !red_name || !blue_name}}">开始比赛</button>
+      <button class="handle-btn" type="primary" bindtap="createGame" loading="{{loading}}" >开始比赛</button>
       <button class="handle-btn" bindtap="navigateToHistory">历史比赛</button> 
     </view>   
   </div>

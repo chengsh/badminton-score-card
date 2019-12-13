@@ -168,14 +168,12 @@
   .left,.undo,.reset,.async,.finish{
     width: 30rpx;
     height: 30rpx;
-    border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
     text-align: center;
     line-height: 30rpx;
     vertical-align: top;
-    margin-right: 10rpx;
+    margin-right: 6rpx;
     >image{
       width: 100%;
       height: 100%;
@@ -205,8 +203,11 @@
   .game-tool-item{
     display: block;
     height: 34rpx;
-    margin: 40rpx 0 40rpx 0;
-    >span{
+    margin: 20rpx 0 40rpx 0;
+    padding: 6rpx 4rpx 0 4rpx;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    border-radius: 6rpx;
+    >span:not(.left){
       display: inline-block;
       vertical-align: middle;
     }
@@ -224,6 +225,7 @@
     left: -40rpx;
     top: 0;
     margin: 0;
+    padding: 0;
     .left{
       background: transparent;
       margin-top: 10rpx;

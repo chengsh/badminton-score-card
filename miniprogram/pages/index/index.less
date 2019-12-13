@@ -49,13 +49,26 @@
   background: #069345;
 }
 .game-attr{
+  position: relative;
   background-color: white;
   height: 72rpx;
-  padding: 0 20rpx;
+  padding: 0 20rpx 0 30rpx;
   line-height: 72rpx;
   margin: 40rpx 0;
   font-size: 28rpx;
   border-radius: 5px;
+  &.game-attr-required{
+    &:before{
+      position: absolute;
+      content: '*';
+      display: block;
+      width: 14rpx;
+      height: 14rpx;
+      color: red;
+      left: 12rpx;
+      top: 6rpx;
+    }
+  }
 }
 .handle-btn{
   margin: 40rpx 0;

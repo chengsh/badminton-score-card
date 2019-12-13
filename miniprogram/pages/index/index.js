@@ -45,14 +45,6 @@ Page({
   createGame: async function(){
     const { game_title, red_name, blue_name } = this.data;
 
-    if( game_title.trim().length == 0 ){
-      wx.showToast({
-        title: '请输入比赛名称',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
     if( red_name.trim().length == 0 || blue_name.trim().length == 0 ){
       wx.showToast({
         title: '请输入队伍名称',
