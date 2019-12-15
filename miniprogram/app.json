@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/score/index",
     "pages/index/index",
+    "pages/score/index",
     "pages/tournament/index",
     "pages/rankings/index",
     "pages/history/index"
@@ -9,7 +9,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#069345",
-    "navigationBarTitleText": "羽毛球比赛记分牌",
+    "navigationBarTitleText": "羽毛球记分工具",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

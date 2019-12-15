@@ -161,7 +161,7 @@
   top: 0;
   padding: 0rpx 20rpx;
   background: #0C943D;
-  box-shadow: -10rpx 0 10rpx rgba(0,0,0,0.1);
+  box-shadow: -10rpx 40rpx 10rpx rgba(0,0,0,0.1);
   &.active{
     right: 0;
   }
@@ -209,7 +209,8 @@
     border-radius: 6rpx;
     >span:not(.left){
       display: inline-block;
-      vertical-align: middle;
+      height: 34rpx;
+      vertical-align: top;
     }
     .game-tool-desc{
       font-size: 18rpx;
@@ -222,13 +223,14 @@
     width: 40rpx;
     height: 40rpx;
     position: absolute;
-    left: -40rpx;
+    left: -38rpx;
     top: 0;
     margin: 0;
     padding: 0;
+    box-shadow: -5px 2px 3px rgba(0,0,0,0.2);
     .left{
       background: transparent;
-      margin-top: 10rpx;
+      margin-top: 6rpx;
     }
   }
 }
