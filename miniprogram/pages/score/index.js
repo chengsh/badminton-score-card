@@ -131,7 +131,7 @@ Page({
 
   // 查看比分，轮询
   pollRequest(owner = true){
-    if(!owner){
+    if(!owner && this.data.game.finish != 1){
       clearInterval(this.data.asyncTimer);
       this.data.asyncTimer = setInterval(() => {
         this.getGameById();
