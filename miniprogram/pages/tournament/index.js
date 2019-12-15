@@ -81,7 +81,7 @@ Page({
 
       result = result.map(item => {
         item.start = new Date(item.year, item['start-date'].split('-')[0] - 1, item['start-date'].split('-')[1]).getTime();
-        item.end = new Date(item.year, item['end-date'].split('-')[0] - 1, item['end-date'].split('-')[1]).getTime();
+        item.end = new Date(item.year, item['end-date'].split('-')[0] - 1, item['end-date'].split('-')[1],23,59,59).getTime();
         return item;
       })
       result.sort((a, b) => {
