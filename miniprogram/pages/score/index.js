@@ -208,7 +208,8 @@ Page({
         allScoreActive: false
       })
     }
-    if (!game.owner || dataset.identifier === 'add' && this.ifGameOver()) return;
+    // 不是创建人或比赛是结束状态（不可撤销）或比分已经满足结束比赛条件（仍可撤销）
+    if (!game.owner || game.finish && dataset.identifier === 'reset' || this.ifGameOver()) return;
     if (dataset.identifier === 'add') {
       setHistory();
       game[dataset.team].score += 1
@@ -417,6 +418,7 @@ Page({
     const _this = this;
     const {game} = this.data;
 
+    if(game.finish)return;
     wx.showModal({
       title: '立即结束比赛',
       content: '确定要结束本场比赛？',
@@ -425,7 +427,8 @@ Page({
           _this.clearHistory();
           game['finish'] = 1;
           _this.setData({
-            game
+            game,
+            toolActive: false
           })
           _this.updateGameScore({
             finish: 1
