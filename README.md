@@ -1,7 +1,7 @@
 # 羽毛球记分工具
 > 羽毛球比赛记分小程序
 
-![二维码](https://github.com/wangmeijian/badminton-score-card/blob/develop/QuickMark.png)
+![二维码](https://github.com/wangmeijian/badminton-score-card/blob/develop/QuickMark.jpeg)
 
 ## changelog
 
