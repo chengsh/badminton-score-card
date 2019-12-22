@@ -1,7 +1,7 @@
 # 羽毛球记分工具
 > 羽毛球比赛记分小程序
 
-![二维码](https://github.com/wangmeijian/badminton-score-card/blob/master/QuickMark.png)
+![二维码](https://github.com/wangmeijian/badminton-score-card/blob/develop/QuickMark.png)
 
 ## changelog
 
@@ -27,7 +27,7 @@
 2、增加羽联世界排名分享  
 
 ### v1.4.0
-1、增加世界羽联巡回赛事安排
+1、增加世界羽联巡回赛事安排  
 2、优化分享图片
 
 ### v1.5.0
