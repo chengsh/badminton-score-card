@@ -66,6 +66,7 @@ Page({
   },
 
   onLoad: function(option) {
+    const { current_round } = game
     wx.hideLoading();
     this.setData({
       game_id: option.game_id
@@ -74,7 +75,7 @@ Page({
         this.pollRequest(res.data.owner);
         // 更新页面标题
         wx.setNavigationBarTitle({
-          title: `${this.data.game.game_title}(${PAGE_TITLE[this.data.game.current_round] || "第一局"})`
+          title: `${this.data.game.game_title}(${PAGE_TITLE[current_round] || "第一局"})`
         })
         if(this.data.game.finish){
           this.openAllScore();
