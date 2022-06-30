@@ -7,7 +7,7 @@ const ASYNC_INTERVAL = 5000;
 const DISABLED_ASYNC_INTERVAL = 5000;
 const PAGE_TITLE = {
   A: '第一局',
-  B: '第一局',
+  B: '第二局',
   C: '决胜局',
 };
 
@@ -66,7 +66,6 @@ Page({
   },
 
   onLoad: function(option) {
-    const { current_round } = game
     wx.hideLoading();
     this.setData({
       game_id: option.game_id
@@ -74,8 +73,9 @@ Page({
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
         // 更新页面标题
+        const { current_round, game_title } = this.data.game;
         wx.setNavigationBarTitle({
-          title: `${this.data.game.game_title}(${PAGE_TITLE[current_round] || "第一局"})`
+          title: `${game_title}1(${PAGE_TITLE[current_round]})`
         })
         if(this.data.game.finish){
           this.openAllScore();
@@ -343,6 +343,7 @@ Page({
               game['server'] = redScore > blueScore ? 'red-r' : 'blue-r'
               game['current_round'] = current_round == 'A' ? 'B' : 'C'
               // 更新页面标题
+
               wx.setNavigationBarTitle({
                 title: `${_this.data.game.game_title}(${current_round == 'A' ? PAGE_TITLE['B'] : PAGE_TITLE['C']})`
               })
