@@ -33,7 +33,7 @@ exports.main = async (event) => {
   return await db.collection(collectionName).add({
     data: {
       create_time: Date.now(),
-      game_title: event.game.game_title || '羽毛球PK赛',
+      game_title: event.game.game_title || '常规赛',
       create_user_id: OPENID,
       red: {
         name: event.game.red_name || '红队',

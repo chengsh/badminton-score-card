@@ -1,6 +1,7 @@
 <div class="game-score">
   <!-- 比赛比分 -->
   <div class="score-count" bindtap="openAllScore">
+    <div class="score-title">大比分</div>
     <div>{{redWin}} : {{blueWin}}</div>
   </div>
   <!-- 三局比分面板 -->

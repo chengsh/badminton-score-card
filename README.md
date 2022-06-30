@@ -3,7 +3,13 @@
 
 ![二维码](https://github.com/wangmeijian/badminton-score-card/blob/develop/QuickMark.jpeg)
 
-## changelog
+## 更新日志
+
+### v1.2.0
+1、删除国际比赛目录
+2、历史比赛移到一级菜单
+3、更新默认比赛名称
+4、UI优化
 
 ### v1.1.0  
 1、兼容iPad   

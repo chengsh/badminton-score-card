@@ -81,11 +81,5 @@ Page({
         loading: false
       })
     })
-  },
-
-  navigateToHistory() {
-    wx.navigateTo({
-      url: '/pages/history/index'
-    })
   }
 })

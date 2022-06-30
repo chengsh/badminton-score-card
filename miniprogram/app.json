@@ -2,14 +2,13 @@
   "pages": [
     "pages/index/index",
     "pages/score/index",
-    "pages/tournament/index",
     "pages/rankings/index",
     "pages/history/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#069345",
-    "navigationBarTitleText": "羽毛球记分工具",
+    "navigationBarTitleText": "羽毛球记分直播工具",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
@@ -31,10 +30,10 @@
         "text": "世界排名"
       },
       {
-        "pagePath": "pages/tournament/index",
-        "iconPath": "images/cup.png",
-        "selectedIconPath": "images/cup_active.png",
-        "text": "国际赛事"
+        "pagePath": "pages/history/index",
+        "iconPath": "images/history.png",
+        "selectedIconPath": "images/history_active.png",
+        "text": "历史比赛"
       }
     ]
   },

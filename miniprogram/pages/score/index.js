@@ -5,6 +5,11 @@ const app = getApp()
 const ASYNC_INTERVAL = 5000;
 // 同步按钮禁用间隔
 const DISABLED_ASYNC_INTERVAL = 5000;
+const PAGE_TITLE = {
+  A: '第一局',
+  B: '第一局',
+  C: '决胜局',
+};
 
 Page({
   data: {
@@ -67,8 +72,9 @@ Page({
     },() => {
       this.getGameById().then((res) => {
         this.pollRequest(res.data.owner);
+        // 更新页面标题
         wx.setNavigationBarTitle({
-          title: this.data.game.game_title
+          title: `${this.data.game.game_title}(${PAGE_TITLE[this.data.game.current_round] || "第一局"})`
         })
         if(this.data.game.finish){
           this.openAllScore();
@@ -219,6 +225,7 @@ Page({
       })
       this.updateGameScore();
       this.computedWin(game);
+      this.ifGameOver();
     }else if(dataset.identifier === 'reset'){
       let _this = this;
 
@@ -275,12 +282,13 @@ Page({
     /**
      * 三种情况，比赛结束
      * 1、有一方得分=30分
-     * 2、一方得分=21分且另一方得分<=19（最常见的情况）
-     * 3、双方得分都>=20分且<30且分差>=2分
+     * 2、一方得分 = total 分且另一方得分 <= total - 2（最常见的情况）
+     * 3、双方得分都 >= total - 1分且 < 30 分且分差 >=2 分
      */
-    if (redScore === maxScore || blueScore === maxScore ||
-      (redScore === total && blueScore <= 19) || (blueScore === total && redScore <= 19) ||
-      (redScore >= 20 && blueScore >= 20 && Math.abs(redScore - blueScore) >= 2)) {
+    if (
+      redScore === maxScore || blueScore === maxScore ||
+      (redScore === total && blueScore <= (total - 2)) || (blueScore === total && redScore <= (total - 2)) ||
+      (redScore >= (total - 1) && blueScore >= (total - 1) && Math.abs(redScore - blueScore) >= 2)) {
       return true;
     }else{
       return false;
@@ -318,7 +326,7 @@ Page({
           'A': '一',
           'B': '二'
         }
-
+        
         wx.showModal({
           title: `第${title[current_round]}局比赛结束`,
           content: `是否开始下一局比赛？`,
@@ -333,6 +341,10 @@ Page({
               game['blue'].score = 0
               game['server'] = redScore > blueScore ? 'red-r' : 'blue-r'
               game['current_round'] = current_round == 'A' ? 'B' : 'C'
+              // 更新页面标题
+              wx.setNavigationBarTitle({
+                title: `${_this.data.game.game_title}(${current_round == 'A' ? PAGE_TITLE['B'] : PAGE_TITLE['C']})`
+              })
               _this.setData({
                 game
               })
