@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "历史比赛",
-  "pageOrientation": "portrait"
+  "pageOrientation": "portrait",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
 }

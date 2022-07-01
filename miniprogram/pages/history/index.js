@@ -8,8 +8,17 @@ Page({
     startX: 0,
     deleteBtnWidth: 68
   },
+  // 下拉刷新
+  onPullDownRefresh: function(){
+    this.onLoad(); 
+  },
+
+  onShow: function(){
+    this.onLoad();
+  },
 
   onLoad: function() {
+    wx.stopPullDownRefresh();
     wx.hideLoading();
     this.getHistory();
   },
