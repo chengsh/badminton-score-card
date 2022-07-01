@@ -17,7 +17,7 @@
       </movable-area>
     </view>
     <view class="no-history" wx:if="{{!loading && history.length === 0}}">
-      暂无历史比赛
+      没有数据，赶快打一局吧~
     </view>
     <view class="data-describe" wx:if="{{history.length > 0}}">
       仅显示最近50场比赛

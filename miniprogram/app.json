@@ -8,7 +8,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#069345",
-    "navigationBarTitleText": "羽毛球记分直播工具",
+    "navigationBarTitleText": "羽毛球记分工具",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

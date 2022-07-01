@@ -18,6 +18,7 @@
       </view>
       <view class="section">
         <input 
+          focus="{{red_focus}}"
           type="text" 
           class="game-attr game-attr-required" 
           value="{{red_name}}" 
@@ -28,6 +29,7 @@
       </view>
       <view class="section">
         <input 
+          focus="{{blue_focus}}"
           type="text" 
           class="game-attr game-attr-required" 
           value="{{blue_name}}" 

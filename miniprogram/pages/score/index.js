@@ -75,7 +75,7 @@ Page({
         // 更新页面标题
         const { current_round, game_title } = this.data.game;
         wx.setNavigationBarTitle({
-          title: `${game_title}1(${PAGE_TITLE[current_round]})`
+          title: `${game_title}(${PAGE_TITLE[current_round]})`
         })
         if(this.data.game.finish){
           this.openAllScore();
