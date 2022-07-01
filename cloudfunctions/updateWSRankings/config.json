@@ -3,7 +3,7 @@
     {
       "name": "updateWSRankings",
       "type": "timer",
-      "config": "0 11 0 * * * *"
+      "config": "9 18 * * 2"
     }
   ]
 }

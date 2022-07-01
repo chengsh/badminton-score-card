@@ -3,7 +3,7 @@
     {
       "name": "updateMSRankings",
       "type": "timer",
-      "config": "0 17 0 * * * *"
+      "config": "6 18 * * 2"
     }
   ]
 }

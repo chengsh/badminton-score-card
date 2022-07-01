@@ -3,7 +3,7 @@
     {
       "name": "updateWDRankings",
       "type": "timer",
-      "config": "0 13 0 * * * *"
+      "config": "8 18 * * 2"
     }
   ]
 }
