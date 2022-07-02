@@ -1,0 +1,27 @@
+.game-about {
+  position: relative;
+  width: 100vw;
+  padding: 40rpx;
+  overflow: hidden;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #069345;
+  color: white;
+}
+.game-about .about-title {
+  font-size: 30rpx;
+  margin-bottom: 10px;
+}
+.game-about .about-title:not(:first-child) {
+  margin-top: 20px;
+}
+.game-about .about-desc {
+  font-size: 26rpx;
+}
+.game-about .about-wechat {
+  margin: 12rpx 0;
+}
+.game-about .wechat {
+  width: 400rpx;
+  height: 400rpx;
+}

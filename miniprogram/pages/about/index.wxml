@@ -1,0 +1,12 @@
+<!--pages/about/index.wxml-->
+<view class="container">
+  <div class="game-about">
+    <view class="about-title">一、使用说明：</view>
+    <view class="about-desc">1. 在首页创建比赛并开始记分。</view>
+    <view class="about-desc">2. 将比分页面分享出去，可以直播比分，只有创建人才能更新比分。</view>
+
+    <view class="about-title">二、交流反馈：</view>
+    <view class="about-desc">长按二维码添加作者微信，欢迎交流</view>
+    <view class="about-wechat"><image class="wechat" src="/images/wechat.png" mode="wechat" show-menu-by-longpress="{{true}}" /></view>
+  </div>
+</view>

@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/score/index",
     "pages/rankings/index",
-    "pages/history/index"
+    "pages/history/index",
+    "pages/about/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -34,6 +35,12 @@
         "iconPath": "images/history.png",
         "selectedIconPath": "images/history_active.png",
         "text": "历史比赛"
+      },
+      {
+        "pagePath": "pages/about/index",
+        "iconPath": "images/jump-kill-border.png",
+        "selectedIconPath": "images/jump-kill-fill.png",
+        "text": "关于"
       }
     ]
   },

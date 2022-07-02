@@ -3,5 +3,5 @@
 npm install -g wxss-cli
 
 // 监听文件夹下的css或less，编译成wxss
-wxss ./minicode
+wxss ./miniprogram
 ```
